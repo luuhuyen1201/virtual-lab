@@ -3,71 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Virtual Lab AR - Thí Nghiệm Ảo</title>
-  
-  <!-- Thư viện hiển thị 3D/AR miễn phí của Google -->
+  <title>Virtual Lab AR</title>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
-
   <style>
-    body { margin: 0; font-family: Arial, sans-serif; background-color: #f4f4f9; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #f4f4f9; }
     model-viewer { width: 100vw; height: 75vh; }
-    .control-panel { 
-      height: 25vh; 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: center;
-      gap: 10px;
-      background: #ffffff;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    }
-    button {
-      padding: 12px 24px;
-      font-size: 16px;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .btn-action { background-color: #28a745; color: white; }
-    .btn-danger { background-color: #dc3545; color: white; }
+    .controls { height: 25vh; display: flex; justify-content: center; align-items: center; gap: 15px; background: #fff; }
+    button { padding: 12px 20px; font-size: 16px; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; }
+    .btn-play { background: #28a745; color: white; }
   </style>
 </head>
 <body>
 
-  <!-- ĐỔI 'mo-hinh-3d.glb' THÀNH TÊN FILE 3D CỦA BẠN -->
-  <model-viewer 
-    src="mo-hinh-3d.glb" 
-    ar 
-    ar-modes="webxr scene-viewer quick-look" 
-    camera-controls 
-    auto-rotate 
-    shadow-intensity="1"
-    alt="Mô hình thí nghiệm 3D">
-    
-    <button slot="ar-button" style="background-color: #007bff; color: white; padding: 10px 20px; border-radius: 5px; border: none; position: absolute; top: 16px; right: 16px;">
-      📱 Xem trong không gian thực (AR)
+  <model-viewer src="scene.gltf" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate shadow-intensity="1">
+    <button slot="ar-button" style="background: #007bff; color: white; padding: 10px 15px; border-radius: 5px; border: none; position: absolute; top: 15px; right: 15px;">
+      📱 Xem trong AR
     </button>
   </model-viewer>
 
-  <!-- ĐỔI TÊN FILE .MP3 TƯƠNG ỨNG CỦA BẠN -->
-  <div class="control-panel">
-    <h3>BẢNG DỌC THÍ NGHIỆM TƯƠNG TÁC</h3>
-    <div>
-      <button class="btn-action" onclick="playAudio('intro.mp3')">▶️ Bắt đầu thí nghiệm</button>
-      <button class="btn-danger" onclick="playAudio('warning.mp3')">⚠️ Thử thao tác sai (Cảnh báo)</button>
-    </div>
+  <div class="controls">
+    <button class="btn-play" onclick="playAudio('intro.mp3')">▶️ Bắt đầu thuyết minh</button>
   </div>
 
   <script>
-    let currentAudio = null;
+    let audio = null;
     function playAudio(file) {
-      if (currentAudio) {
-        currentAudio.pause();
-      }
-      currentAudio = new Audio(file);
-      currentAudio.play();
+      if (audio) audio.pause();
+      audio = new Audio(file);
+      audio.play();
     }
   </script>
 
