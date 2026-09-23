@@ -1,38 +1,787 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Virtual Lab AR</title>
-  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
-  <style>
-    body { margin: 0; font-family: Arial, sans-serif; background: #f4f4f9; }
-    model-viewer { width: 100vw; height: 75vh; }
-    .controls { height: 25vh; display: flex; justify-content: center; align-items: center; gap: 15px; background: #fff; }
-    button { padding: 12px 20px; font-size: 16px; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; }
-    .btn-play { background: #28a745; color: white; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Study Check 4.0 - Nhóm 11C1</title>
+
+<style>
+:root{
+    --primary:#4f46e5;
+    --primary-hover:#4338ca;
+    --bg:#f8fafc;
+    --card:#fff;
+    --text:#0f172a;
+    --muted:#64748b;
+    --border:#e2e8f0;
+    --green:#16a34a;
+    --red:#e11d48;
+    --orange:#ea580c;
+    --yellow:#ca8a04;
+}
+
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:"Segoe UI",Tahoma,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+}
+
+.container{
+    max-width:900px;
+    margin:30px auto;
+    padding:18px;
+}
+
+.card{
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    margin-bottom:22px;
+    box-shadow:0 5px 25px rgba(15,23,42,.07);
+}
+
+.screen{display:none}
+.screen.active{display:block}
+
+.text-center{text-align:center}
+
+h1{
+    color:#1e1b4b;
+    font-size:35px;
+    margin:8px 0;
+}
+
+h2{color:#1e1b4b}
+
+.subtitle{
+    color:var(--muted);
+    font-size:17px;
+}
+
+.notice{
+    padding:15px 18px;
+    border-radius:12px;
+    background:#eef2ff;
+    border-left:5px solid var(--primary);
+    margin:22px 0;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    margin:25px 0;
+}
+
+@media(max-width:650px){
+    .info-grid{grid-template-columns:1fr}
+}
+
+label{
+    display:block;
+    font-weight:700;
+    margin-bottom:7px;
+}
+
+select,input{
+    width:100%;
+    padding:12px;
+    border:2px solid var(--border);
+    border-radius:10px;
+    font-size:15px;
+    background:white;
+}
+
+.btn{
+    border:0;
+    border-radius:10px;
+    padding:13px 23px;
+    background:var(--primary);
+    color:white;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.btn:hover{
+    background:var(--primary-hover);
+    transform:translateY(-1px);
+}
+
+.btn-secondary{
+    background:#e2e8f0;
+    color:#334155;
+}
+
+.btn-secondary:hover{
+    background:#cbd5e1;
+}
+
+.btn-green{
+    background:var(--green);
+}
+
+.progress-header{
+    display:flex;
+    justify-content:space-between;
+    color:var(--muted);
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.progress-bar{
+    height:9px;
+    background:#e2e8f0;
+    border-radius:20px;
+    overflow:hidden;
+    margin-bottom:30px;
+}
+
+.progress-fill{
+    height:100%;
+    width:0;
+    background:var(--primary);
+    transition:.3s;
+}
+
+.question-number{
+    color:var(--primary);
+    font-weight:800;
+    margin-bottom:6px;
+}
+
+.question-category{
+    display:inline-block;
+    background:#eef2ff;
+    color:#4338ca;
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.question-text{
+    font-size:21px;
+    font-weight:700;
+    margin-bottom:22px;
+}
+
+.options{
+    display:flex;
+  flex-direction:column;
+    gap:12px;
+}
+
+.option{
+border:2px solid var(--border);
+    border-radius:11px;
+    padding:15px 18px;
+    cursor:pointer;
+    transition:.2s;
+    font-weight:600;
+}
+
+.option:hover{
+    background:#f8fafc;
+    border-color:#c7d2fe;
+}
+
+.option.selected{
+    background:#eef2ff;
+    border-color:var(--primary);
+    color:var(--primary);
+}
+
+.navigation{
+    display:flex;
+    justify-content:space-between;
+    margin-top:30px;
+    gap:12px;
+}
+
+.score-card{
+    background:linear-gradient(135deg,#6366f1,#4f46e5);
+    color:white;
+    text-align:center;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:25px;
+}
+
+.score{
+    font-size:58px;
+    font-weight:900;
+    margin:5px 0;
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 17px;
+    border-radius:30px;
+    background:rgba(255,255,255,.2);
+    font-weight:700;
+}
+
+.profile-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-bottom:25px;
+}
+
+@media(max-width:700px){
+    .profile-grid{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:480px){
+    .profile-grid{grid-template-columns:1fr}
+}
+
+.metric{
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:16px;
+    background:white;
+}
+
+.metric-title{
+    font-size:11px;
+    color:var(--muted);
+    font-weight:800;
+}
+
+.metric-value{
+    font-size:23px;
+    font-weight:900;
+}
+
+.ai-box{
+    background:#f0fdf4;
+    border:1px solid #bbf7d0;
+    border-radius:15px;
+    padding:20px;
+    margin-top:20px;
+}
+
+.ai-header{
+    color:#166534;
+    font-size:19px;
+    font-weight:800;
+}
+
+.advice-box{
+    margin-top:14px;
+    padding:17px;
+    border-radius:14px;
+    background:white;
+    border-left:5px solid var(--green);
+}
+
+.footer-note{
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+    margin-top:25px;
+}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
+.btn-small{padding:10px 15px;font-size:14px}
+.dashboard-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:12px;margin:18px 0}
+.stat-card{border:1px solid var(--border);border-radius:14px;padding:16px;background:#fff;text-align:center}
+.stat-label{font-size:12px;color:var(--muted);font-weight:800}.stat-number{font-size:36px;font-weight:900;color:var(--primary)}
+.tip{font-size:13px;color:var(--muted);margin-top:7px}
+@media print{body{background:#fff}.container{max-width:none;margin:0;padding:0}.screen:not(#result){display:none!important}.screen#result{display:block!important;box-shadow:none;margin:0;padding:0}.toolbar,.footer-note,.notice{display:none!important}.card{box-shadow:none}}
+</style>
 </head>
+
 <body>
 
-  <model-viewer src="scene.gltf" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate shadow-intensity="1">
-    <button slot="ar-button" style="background: #007bff; color: white; padding: 10px 15px; border-radius: 5px; border: none; position: absolute; top: 15px; right: 15px;">
-      📱 Xem trong AR
-    </button>
-  </model-viewer>
+<div class="container">
 
-  <div class="controls">
-    <button class="btn-play" onclick="playAudio('intro.mp3')">▶️ Bắt đầu thuyết minh</button>
+<!-- ================= HOME ================= -->
+<section id="home" class="screen card active text-center">
+    <div style="font-size:64px">🧠</div>
+    <h1>AI Study Check 4.0</h1>
+    <p class="subtitle">
+Hệ thống đánh giá mức độ sử dụng AI trong học tập
+        và năng lực học tập độc lập.
+    </p>
+
+    <div class="notice" style="text-align:left">
+        <strong>Lưu ý:</strong>
+        Đây là thang đo thử nghiệm do nhóm nghiên cứu xây dựng,
+        chưa phải thang đo tâm lý được chuẩn hóa.
+        Kết quả chỉ nhằm mục đích khảo sát và nghiên cứu khoa học.
+    </div>
+
+    <div class="info-grid" style="text-align:left">
+        <div>
+            <label for="student-level">Khối lớp</label>
+            <select id="student-level">
+                <option value="10">Khối 10</option>
+                <option value="11" selected>Khối 11</option>
+                <option value="12">Khối 12</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="student-subject">Lĩnh vực khảo sát</label>
+            <select id="student-subject">
+                <option value="natural">🧮 Tự nhiên</option>
+                <option value="social">📚 Xã hội</option>
+                <option value="language">🌎 Ngoại ngữ</option>
+            </select>
+        </div>
+    </div>
+
+    <p>
+        <strong>Tác giả:</strong>
+        Nguyễn Đức Bảo Trâm & Lưu Thanh Huyên — Lớp 11C1
+    </p>
+<div style="text-align:left;margin:20px 0">
+    <label for="participant-code">Họ và tên</label>
+    <input
+        id="participant-code"
+        maxlength="50"
+        placeholder="Nhập họ và tên của bạn"
+    >
+    <div class="tip">
+        Họ tên được sử dụng để phân biệt các lượt tham gia khảo sát.
+    </div>
+</div>
+    <div class="toolbar">
+      <button class="btn" onclick="startQuiz()">Bắt đầu kiểm tra ➜</button>
+      <button class="btn btn-secondary" onclick="openDashboard()">📈 Dashboard nghiên cứu</button>
+    </div>
+</section>
+
+<!-- ================= QUIZ ================= -->
+<section id="quiz" class="screen card">
+    <div class="progress-header">
+        <span id="progress-text">Câu hỏi 1 / 20</span>
+        <span id="progress-percent">5%</span>
+    </div>
+
+    <div class="progress-bar">
+        <div id="progress-fill" class="progress-fill"></div>
+    </div>
+
+    <div class="question-number" id="question-num">CÂU 1</div>
+    <div class="question-category" id="question-category">Nhóm chỉ số</div>
+    <div class="question-text" id="question-txt">Đang tải câu hỏi...</div>
+    <div class="options" id="options-container"></div>
+
+    <div class="navigation">
+        <button class="btn btn-secondary" id="btn-prev" onclick="prevQuestion()" disabled>← Câu trước</button>
+        <button class="btn btn-secondary" onclick="goHome()">🏠 Trở về trang đầu</button>
+        <button class="btn" id="btn-next" onclick="nextQuestion()">Câu sau →</button>
+    </div>
+</section>
+<!-- ================= RESULT ================= -->
+<section id="result" class="screen card">
+    <h2 class="text-center">Kết Quả Đánh Giá</h2>
+<p class="text-center subtitle" id="user-display-info"></p>
+
+    <div class="score-card">
+        <div class="badge" id="result-badge">ĐANG PHÂN TÍCH</div>
+        <div class="score" id="result-score">0/100</div>
+        <p style="margin:5px 0 0;font-weight:600" id="result-desc"></p>
+    </div>
+
+    <!-- METRICS -->
+    <div class="profile-grid">
+        <div class="metric">
+            <div class="metric-title">AI DEPENDENCY</div>
+            <div class="metric-value" style="color:#e11d48" id="metric-dep">0%</div>
+        </div>
+        <div class="metric">
+            <div class="metric-title">TỰ HỌC</div>
+            <div class="metric-value" style="color:#16a34a" id="metric-autonomy">0%</div>
+        </div>
+        <div class="metric">
+            <div class="metric-title">TƯ DUY PHẢN BIỆN</div>
+            <div class="metric-value" style="color:#4f46e5" id="metric-critical">0%</div>
+        </div>
+        <div class="metric">
+            <div class="metric-title">KIỂM CHỨNG AI</div>
+            <div class="metric-value" style="color:#0891b2" id="metric-verify">0%</div>
+        </div>
+        <div class="metric">
+            <div class="metric-title">VẬN DỤNG</div>
+            <div class="metric-value" style="color:#ea580c" id="metric-apply">0%</div>
+        </div>
+        <div class="metric">
+            <div class="metric-title">AI CÓ TRÁCH NHIỆM</div>
+            <div class="metric-value" style="color:#7c3aed" id="metric-responsible">0%</div>
+        </div>
+    </div>
+
+    <div class="toolbar">
+      <button class="btn btn-green btn-small" onclick="saveCurrentResult()">💾 Đồng bộ lại kết quả</button>
+      <button class="btn btn-secondary btn-small" onclick="window.print()">🖨️ In / Lưu PDF</button>
+      <button class="btn btn-secondary btn-small" onclick="openDashboard()">📈 Dashboard</button>
+    </div>
+
+    <div id="save-status" class="tip text-center" style="font-weight:bold; color:var(--green); margin-top:10px;"></div>
+
+    <div class="notice" style="margin-top:25px">
+        <strong>📌 Lưu ý khi đọc kết quả:</strong><br>
+        Kết quả phản ánh xu hướng trả lời trong bài khảo sát, không phải chẩn đoán tâm lý hoặc đánh giá chính thức về năng lực học tập của người tham gia.
+    </div>
+
+    <div class="text-center" style="margin-top:25px">
+        <button class="btn" onclick="restartQuiz()">🔄 Làm bài lại</button>
+        <button class="btn btn-secondary" onclick="goHome()" style="margin-left:8px">🏠 Về trang đầu</button>
+    </div>
+</section>
+
+<!-- ================= DASHBOARD ================= -->
+<section id="dashboard" class="screen card">
+  <h2 class="text-center">📈 Dashboard nghiên cứu</h2>
+  <p class="subtitle text-center">Tổng hợp dữ liệu khảo sát từ Google Sheets.</p>
+  <div class="dashboard-grid">
+    <div class="stat-card">
+      <div class="stat-label">SỐ LƯỢT ĐÃ LƯU TOÀN MẠNG</div>
+<div class="stat-number" id="dash-count">Đang tải...</div>
+    </div>
   </div>
+  <div class="toolbar">
+    <button class="btn btn-secondary btn-small" onclick="goHome()">🏠 Về trang đầu</button>
+  </div>
+</section>
 
-  <script>
-    let audio = null;
-    function playAudio(file) {
-      if (audio) audio.pause();
-      audio = new Audio(file);
-      audio.play();
+<div class="footer-note">
+    AI Study Check 4.0 · Nhóm nghiên cứu 11C1<br>
+    📞 Contact with us:
+    <a href="tel:0868579082" style="color:#4f46e5;font-weight:700;text-decoration:none;">
+        0868579082
+    </a>
+</div>
+
+</div>
+
+<script>
+// ==================== CẤU HÌNH ====================
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyx3lqOtWlXtKrPf6e195vmwqByd8ex5-aYtEbX41JP_Zxd0ELJAwzc9wUfVlOuSubi7g/exec";
+
+const SUBJECT_NAMES = {
+    natural: "Tự nhiên",
+    social: "Xã hội",
+    language: "Ngoại ngữ"
+};
+
+const SCALE = [
+    "1 — Hoàn toàn không đúng",
+    "2 — Ít đúng",
+    "3 — Đôi khi đúng",
+    "4 — Thường xuyên đúng",
+    "5 — Hoàn toàn đúng"
+];
+
+// 20 câu: 4 câu cho mỗi nhóm chính, với dependency là chỉ số "rủi ro"
+// và các nhóm còn lại là năng lực tích cực.
+const QUESTIONS = [
+    {id:1, dimension:"dependency", category:"Phụ thuộc AI", text:"Tôi thường hỏi AI ngay khi không biết cách bắt đầu một bài tập."},
+    {id:2, dimension:"dependency", category:"Phụ thuộc AI", text:"Tôi thường yêu cầu AI giải hoàn chỉnh một bài tập thay vì tự giải trước."},
+    {id:3, dimension:"dependency", category:"Phụ thuộc AI", text:"Tôi từng đưa toàn bộ đề bài cho AI và sử dụng trực tiếp câu trả lời."},
+    {id:4, dimension:"dependency", category:"Phụ thuộc AI", text:"Khi bài tập khó, tôi có xu hướng để AI quyết định cách giải quyết thay mình."},
+
+    {id:5, dimension:"autonomy", category:"Năng lực tự học", text:"Tôi thường tự suy nghĩ và thử giải quyết vấn đề trước khi hỏi AI."},
+    {id:6, dimension:"autonomy", category:"Năng lực tự học", text:"Tôi có thể tự xác định mình cần làm gì khi gặp một bài tập mới."},
+    {id:7, dimension:"autonomy", category:"Năng lực tự học", text:"Sau khi tham khảo AI, tôi có thể tự làm lại bài mà không cần nhìn câu trả lời."},
+    {id:8, dimension:"autonomy", category:"Năng lực tự học", text:"Tôi có thể tiếp tục làm bài khi không có AI hướng dẫn từng bước."},
+
+    {id:9, dimension:"critical", category:"Tư duy phản biện", text:"Tôi có thể tự giải thích vì sao mình chọn một đáp án hoặc cách giải."},
+    {id:10, dimension:"critical", category:"Tư duy phản biện", text:"Tôi đặt câu hỏi khi câu trả lời của AI chưa có đủ lý do hoặc bằng chứng."},
+  {id:11, dimension:"critical", category:"Tư duy phản biện", text:"Tôi có thể nhận ra khi câu trả lời của AI không phù hợp với yêu cầu của bài."},
+    {id:12, dimension:"critical", category:"Tư duy phản biện", text:"Tôi không mặc định cho rằng câu trả lời của AI luôn đúng."},
+
+    {id:13, dimension:"verify", category:"Kiểm chứng AI", text:"Tôi kiểm tra lại thông tin trước khi sử dụng câu trả lời của AI."},
+    {id:14, dimension:"verify", category:"Kiểm chứng AI", text:"Tôi thường so sánh câu trả lời của AI với sách giáo khoa hoặc nguồn khác."},
+    {id:15, dimension:"verify", category:"Kiểm chứng AI", text:"Khi AI đưa ra thông tin quan trọng, tôi chủ động tìm nguồn khác để đối chiếu."},
+    {id:16, dimension:"verify", category:"Kiểm chứng AI", text:"Khi phát hiện AI có thể trả lời sai, tôi chủ động tìm cách kiểm tra và sửa lại."},
+
+    {id:17, dimension:"responsible", category:"AI có trách nhiệm", text:"Tôi sử dụng AI như một công cụ hỗ trợ chứ không hoàn toàn thay thế suy nghĩ của mình."},
+    {id:18, dimension:"responsible", category:"AI có trách nhiệm", text:"Tôi kiểm tra và chỉnh sửa nội dung AI tạo ra trước khi đưa vào bài làm."},
+    {id:19, dimension:"responsible", category:"AI có trách nhiệm", text:"Tôi tránh sử dụng nguyên văn câu trả lời của AI khi chưa hiểu nội dung."},
+    {id:20, dimension:"responsible", category:"AI có trách nhiệm", text:"Tôi cân nhắc tính chính xác và phù hợp của nội dung AI trước khi sử dụng."}
+];
+
+let currentQuestion = 0;
+let answers = {};
+let currentSubject = "natural";
+let currentSubmissionId = "";
+let lastResult = null;
+let lastOverall = 0;
+
+function makeSubmissionId() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return "SUB-" + Date.now() + "-" + Math.random().toString(36).slice(2,10);
+}
+
+function showScreen(id) {
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    const target = document.getElementById(id);
+    if (target) target.classList.add("active");
+    window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function startQuiz() {
+    try {
+        const name = document.getElementById("participant-code").value.trim();
+        if (!name) {
+            alert("Vui lòng nhập họ và tên trước khi bắt đầu.");
+            document.getElementById("participant-code").focus();
+            return;
+        }
+
+        currentSubject = document.getElementById("student-subject").value;
+        currentQuestion = 0;
+        answers = {};
+        currentSubmissionId = makeSubmissionId();
+        lastResult = null;
+        lastOverall = 0;
+
+        showScreen("quiz");
+        renderQuestion();
+    } catch (error) {
+        console.error(error);
+        alert("Không thể bắt đầu bài kiểm tra. Vui lòng tải lại trang và thử lại.");
     }
-  </script>
+}
 
+function renderQuestion() {
+  const q = QUESTIONS[currentQuestion];
+    if (!q) return;
+
+    const total = QUESTIONS.length;
+    const num = currentQuestion + 1;
+    const percent = Math.round((num / total) * 100);
+
+    document.getElementById("progress-text").textContent = `Câu hỏi ${num} / ${total}`;
+    document.getElementById("progress-percent").textContent = `${percent}%`;
+    document.getElementById("progress-fill").style.width = `${percent}%`;
+    document.getElementById("question-num").textContent = `CÂU ${num}`;
+    document.getElementById("question-category").textContent = q.category;
+    document.getElementById("question-txt").textContent = q.text;
+
+    const box = document.getElementById("options-container");
+    box.innerHTML = "";
+
+    SCALE.forEach((label, index) => {
+        const value = index + 1;
+        const option = document.createElement("div");
+        option.className = "option";
+        option.textContent = label;
+        option.onclick = () => selectAnswer(value);
+
+        if (answers[q.id] === value) option.classList.add("selected");
+        box.appendChild(option);
+    });
+
+    document.getElementById("btn-prev").disabled = currentQuestion === 0;
+
+    const nextBtn = document.getElementById("btn-next");
+    nextBtn.textContent = currentQuestion === total - 1 ? "Hoàn thành ✓" : "Câu sau →";
+}
+
+function selectAnswer(value) {
+    const q = QUESTIONS[currentQuestion];
+    answers[q.id] = value;
+    renderQuestion();
+}
+
+function prevQuestion() {
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+    }
+}
+
+function nextQuestion() {
+    const q = QUESTIONS[currentQuestion];
+
+    if (!answers[q.id]) {
+        alert("Vui lòng chọn một phương án trước khi tiếp tục.");
+        return;
+    }
+
+    if (currentQuestion < QUESTIONS.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+    } else {
+        finishQuiz();
+    }
+}
+
+function scoreDimension(dimension) {
+    const items = QUESTIONS.filter(q => q.dimension === dimension);
+    const values = items.map(q => Number(answers[q.id] || 0));
+    if (!values.length || values.some(v => !v)) return 0;
+    const avg = values.reduce((a,b) => a+b, 0) / values.length;
+    return Math.round((avg / 5) * 100);
+}
+
+function finishQuiz() {
+    const unanswered = QUESTIONS.filter(q => !answers[q.id]);
+    if (unanswered.length) {
+        alert(`Bạn còn ${unanswered.length} câu chưa trả lời.`);
+        return;
+    }
+
+    const dependency = scoreDimension("dependency");
+    const autonomy = scoreDimension("autonomy");
+    const critical = scoreDimension("critical");
+    const verify = scoreDimension("verify");
+    const responsible = scoreDimension("responsible");
+
+    // 5 nhóm có trong bộ 20 câu. "Vận dụng" được suy ra từ khả năng tự học
+    // và trách nhiệm sử dụng AI để giữ tương thích với cấu trúc dữ liệu cũ.
+  const apply = Math.round((autonomy * 0.6 + critical * 0.4) * 10) / 10;
+
+    // Đảo chiều Dependency để điểm tổng hợp mang ý nghĩa "năng lực sử dụng AI độc lập":
+    // dependency cao => independence thấp.
+    const independence = 100 - dependency;
+    const overall = Math.round(
+        (independence + autonomy + critical + verify + apply + responsible) / 6 * 10
+    ) / 10;
+
+    lastResult = {
+        dependency,
+        autonomy,
+        critical,
+        verify,
+        apply,
+        responsible
+    };
+    lastOverall = overall;
+
+    document.getElementById("metric-dep").textContent = `${dependency}%`;
+    document.getElementById("metric-autonomy").textContent = `${autonomy}%`;
+    document.getElementById("metric-critical").textContent = `${critical}%`;
+    document.getElementById("metric-verify").textContent = `${verify}%`;
+    document.getElementById("metric-apply").textContent = `${apply}%`;
+    document.getElementById("metric-responsible").textContent = `${responsible}%`;
+
+    document.getElementById("result-score").textContent = `${overall}/100`;
+    document.getElementById("user-display-info").textContent =
+        `${document.getElementById("participant-code").value.trim()} · ` +
+        `${document.getElementById("student-level").value} · ` +
+        `${SUBJECT_NAMES[currentSubject]}`;
+
+    let badge = "HỒ SƠ SỬ DỤNG AI CÂN BẰNG";
+    let desc = "Bạn đang kết hợp AI với khả năng tự học và kiểm soát quá trình học tập.";
+
+    if (overall < 50) {
+        badge = "CẦN TĂNG TÍNH ĐỘC LẬP";
+        desc = "Nên tăng thời gian tự suy nghĩ, tự kiểm tra và chủ động xử lý nhiệm vụ trước khi nhờ AI.";
+    } else if (overall < 70) {
+        badge = "ĐANG PHÁT TRIỂN";
+        desc = "Bạn đã có một số thói quen học tập độc lập; hãy tiếp tục cải thiện cách kiểm chứng và sử dụng AI.";
+    } else if (overall < 85) {
+        badge = "KHÁ CHỦ ĐỘNG";
+        desc = "Bạn có xu hướng sử dụng AI như công cụ hỗ trợ và vẫn duy trì nhiều hoạt động tự học.";
+    } else {
+        badge = "CHỦ ĐỘNG CAO";
+        desc = "Hồ sơ cho thấy mức độ tự chủ tương đối cao khi kết hợp AI vào học tập.";
+    }
+
+    document.getElementById("result-badge").textContent = badge;
+    document.getElementById("result-desc").textContent = desc;
+
+    showScreen("result");
+    sendToGoogleSheets(currentResultPayload());
+}
+
+function currentResultPayload() {
+    return {
+        submissionId: currentSubmissionId,
+        participantCode: document.getElementById("participant-code").value.trim(),
+        level: document.getElementById("student-level").value,
+        subject: SUBJECT_NAMES[currentSubject],
+        dependency: lastResult?.dependency ?? "",
+        autonomy: lastResult?.autonomy ?? "",
+        critical: lastResult?.critical ?? "",
+        verify: lastResult?.verify ?? "",
+      apply: lastResult?.apply ?? "",
+        responsible: lastResult?.responsible ?? "",
+        overall: lastOverall
+    };
+}
+
+function sendToGoogleSheets(data) {
+    const statusElem = document.getElementById("save-status");
+
+    if (!SCRIPT_URL) {
+        if (statusElem) statusElem.textContent = "⚠️ Chưa cấu hình Google Apps Script.";
+        return Promise.resolve(false);
+    }
+
+    const formData = new URLSearchParams();
+    Object.keys(data).forEach(key => formData.append(key, data[key] ?? ""));
+
+    return fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},
+        body: formData.toString()
+    })
+    .then(() => {
+        if (statusElem) statusElem.textContent = "✓ Đã gửi dữ liệu lên Google Sheets.";
+        return true;
+    })
+    .catch(err => {
+        console.error("Lỗi gửi dữ liệu:", err);
+        if (statusElem) statusElem.textContent = "❌ Không gửi được dữ liệu. Hãy thử lại.";
+        return false;
+    });
+}
+
+function saveCurrentResult() {
+    if (!lastResult) return;
+    sendToGoogleSheets(currentResultPayload());
+}
+
+function fetchTotalSubmissions() {
+    const countElem = document.getElementById("dash-count");
+    if (!countElem || !SCRIPT_URL) return;
+
+    countElem.textContent = "Đang tải...";
+
+    fetch(SCRIPT_URL)
+        .then(res => res.json())
+        .then(data => {
+            countElem.textContent = Number(data.total || 0);
+        })
+        .catch(err => {
+            console.error("Lỗi tải tổng lượt:", err);
+            countElem.textContent = "Chưa kết nối";
+        });
+}
+
+function openDashboard() {
+    showScreen("dashboard");
+    fetchTotalSubmissions();
+}
+
+function restartQuiz() {
+    startQuiz();
+}
+
+function goHome() {
+    showScreen("home");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Không gọi Apps Script ngay khi mở trang; chỉ tải khi mở Dashboard.
+});
+</script>
 </body>
 </html>
