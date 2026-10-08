@@ -175,12 +175,12 @@ select,input{
 
 .options{
     display:flex;
-flex-direction:column;
+    flex-direction:column;
     gap:12px;
 }
 
 .option{
-border:2px solid var(--border);
+    border:2px solid var(--border);
     border-radius:11px;
     padding:15px 18px;
     cursor:pointer;
@@ -613,7 +613,7 @@ và năng lực học tập độc lập.
 
             <div class="analysis-card verify">
                 <div class="analysis-card-title">🔍 Kiểm chứng thông tin</div>
-<div class="analysis-card-value" id="analysis-verify-value">0%</div>
+                <div class="analysis-card-value" id="analysis-verify-value">0%</div>
                 <div class="analysis-card-text" id="analysis-verify-text"></div>
             </div>
 
@@ -672,13 +672,12 @@ và năng lực học tập độc lập.
 
 <!-- ================= DASHBOARD ================= -->
 <section id="dashboard" class="screen card">
-dc r nè m
-<h2 class="text-center">📈 Dashboard nghiên cứu</h2>
+  <h2 class="text-center">📈 Dashboard nghiên cứu</h2>
   <p class="subtitle text-center">Tổng hợp dữ liệu khảo sát từ Google Sheets.</p>
   <div class="dashboard-grid">
     <div class="stat-card">
       <div class="stat-label">SỐ LƯỢT ĐÃ LƯU TOÀN MẠNG</div>
-<div class="stat-number" id="dash-count">Đang tải...</div>
+      <div class="stat-number" id="dash-count">Đang tải...</div>
     </div>
   </div>
   <div class="toolbar">
@@ -729,7 +728,7 @@ const QUESTIONS = [
 
     {id:9, dimension:"critical", category:"Tư duy phản biện", text:"Tôi có thể tự giải thích vì sao mình chọn một đáp án hoặc cách giải."},
     {id:10, dimension:"critical", category:"Tư duy phản biện", text:"Tôi đặt câu hỏi khi câu trả lời của AI chưa có đủ lý do hoặc bằng chứng."},
-{id:11, dimension:"critical", category:"Tư duy phản biện", text:"Tôi có thể nhận ra khi câu trả lời của AI không phù hợp với yêu cầu của bài."},
+    {id:11, dimension:"critical", category:"Tư duy phản biện", text:"Tôi có thể nhận ra khi câu trả lời của AI không phù hợp với yêu cầu của bài."},
     {id:12, dimension:"critical", category:"Tư duy phản biện", text:"Tôi không mặc định cho rằng câu trả lời của AI luôn đúng."},
 
     {id:13, dimension:"verify", category:"Kiểm chứng AI", text:"Tôi kiểm tra lại thông tin trước khi sử dụng câu trả lời của AI."},
@@ -787,17 +786,17 @@ function startQuiz() {
 }
 
 function renderQuestion() {
-const q = QUESTIONS[currentQuestion];
+    const q = QUESTIONS[currentQuestion];
     if (!q) return;
 
     const total = QUESTIONS.length;
     const num = currentQuestion + 1;
     const percent = Math.round((num / total) * 100);
 
-    document.getElementById("progress-text").textContent = `Câu hỏi ${num} / ${total}`;
-    document.getElementById("progress-percent").textContent = `${percent}%`;
-    document.getElementById("progress-fill").style.width = `${percent}%`;
-    document.getElementById("question-num").textContent = `CÂU ${num}`;
+    document.getElementById("progress-text").textContent = Câu hỏi ${num} / ${total};
+    document.getElementById("progress-percent").textContent = ${percent}%;
+    document.getElementById("progress-fill").style.width = ${percent}%;
+    document.getElementById("question-num").textContent = CÂU ${num};
     document.getElementById("question-category").textContent = q.category;
     document.getElementById("question-txt").textContent = q.text;
 
@@ -861,7 +860,7 @@ function scoreDimension(dimension) {
 function finishQuiz() {
     const unanswered = QUESTIONS.filter(q => !answers[q.id]);
     if (unanswered.length) {
-        alert(`Bạn còn ${unanswered.length} câu chưa trả lời.`);
+        alert(Bạn còn ${unanswered.length} câu chưa trả lời.);
         return;
     }
 
@@ -872,7 +871,7 @@ function finishQuiz() {
     const responsible = scoreDimension("responsible");
 
     // 5 nhóm có trong bộ 20 câu. "Vận dụng" được suy ra từ khả năng tự học
-// và trách nhiệm sử dụng AI để giữ tương thích với cấu trúc dữ liệu cũ.
+    // và trách nhiệm sử dụng AI để giữ tương thích với cấu trúc dữ liệu cũ.
     const apply = Math.round((autonomy * 0.6 + critical * 0.4) * 10) / 10;
 
     // Đảo chiều Dependency để điểm tổng hợp mang ý nghĩa "năng lực sử dụng AI độc lập":
@@ -892,18 +891,18 @@ function finishQuiz() {
     };
     lastOverall = overall;
 
-    document.getElementById("metric-dep").textContent = `${dependency}%`;
-    document.getElementById("metric-autonomy").textContent = `${autonomy}%`;
-    document.getElementById("metric-critical").textContent = `${critical}%`;
-    document.getElementById("metric-verify").textContent = `${verify}%`;
-    document.getElementById("metric-apply").textContent = `${apply}%`;
-    document.getElementById("metric-responsible").textContent = `${responsible}%`;
+    document.getElementById("metric-dep").textContent = ${dependency}%;
+    document.getElementById("metric-autonomy").textContent = ${autonomy}%;
+    document.getElementById("metric-critical").textContent = ${critical}%;
+    document.getElementById("metric-verify").textContent = ${verify}%;
+    document.getElementById("metric-apply").textContent = ${apply}%;
+    document.getElementById("metric-responsible").textContent = ${responsible}%;
 
-    document.getElementById("result-score").textContent = `${overall}/100`;
+    document.getElementById("result-score").textContent = ${overall}/100;
     document.getElementById("user-display-info").textContent =
-        `${document.getElementById("participant-code").value.trim()} · ` +
-        `${document.getElementById("student-level").value} · ` +
-        `${SUBJECT_NAMES[currentSubject]}`;
+        ${document.getElementById("participant-code").value.trim()} ·  +
+        ${document.getElementById("student-level").value} ·  +
+        ${SUBJECT_NAMES[currentSubject]};
 
     let badge = "HỒ SƠ SỬ DỤNG AI CÂN BẰNG";
     let desc = "Bạn đang kết hợp AI với khả năng tự học và kiểm soát quá trình học tập.";
@@ -937,7 +936,7 @@ function analysisLevel(score, reverse = false) {
     // reverse=true dùng cho Phụ thuộc AI: điểm cao là xu hướng cần chú ý.
     if (reverse) {
         if (score >= 75) return "Mức khá cao. Bạn nên ưu tiên tự suy nghĩ và thử cách giải trước khi nhờ AI.";
-if (score >= 50) return "Có dấu hiệu sử dụng AI khá thường xuyên. Bạn nên chú ý dành thời gian tự suy nghĩ trước khi nhờ AI.";
+        if (score >= 50) return "Có dấu hiệu sử dụng AI khá thường xuyên. Bạn nên chú ý dành thời gian tự suy nghĩ trước khi nhờ AI.";
         if (score >= 25) return "Mức tương đối thấp. Bạn vẫn nên duy trì thói quen tự xử lý nhiệm vụ trước khi dùng AI.";
         return "Mức thấp. AI dường như chưa được dùng như lựa chọn đầu tiên khi bạn gặp khó khăn.";
     }
@@ -965,12 +964,12 @@ function makeRadarSvg(values) {
     const polygonPoints = (r) => {
         return Array.from({length:n}, (_,i) => {
             const p = point(100, i, r);
-            return `${p.x.toFixed(1)},${p.y.toFixed(1)}`;
+            return ${p.x.toFixed(1)},${p.y.toFixed(1)};
         }).join(" ");
     };
 
     const dataPoints = values.map((v,i) => point(v,i));
-    const dataPolygon = dataPoints.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
+    const dataPolygon = dataPoints.map(p => ${p.x.toFixed(1)},${p.y.toFixed(1)}).join(" ");
 
     let svg = `
     <svg viewBox="0 0 560 520" role="img" aria-label="Biểu đồ radar kết quả học tập độc lập">
@@ -982,13 +981,13 @@ function makeRadarSvg(values) {
 
     for (let i=0;i<n;i++) {
         const p = point(100,i);
-        svg += `<line class="radar-axis" x1="${cx}" y1="${cy}" x2="${p.x}" y2="${p.y}"></line>`;
+        svg += <line class="radar-axis" x1="${cx}" y1="${cy}" x2="${p.x}" y2="${p.y}"></line>;
     }
 
-    svg += `<polygon class="radar-area" points="${dataPolygon}"></polygon>`;
+    svg += <polygon class="radar-area" points="${dataPolygon}"></polygon>;
 
     dataPoints.forEach(p => {
-        svg += `<circle class="radar-point" cx="${p.x}" cy="${p.y}" r="5"></circle>`;
+        svg += <circle class="radar-point" cx="${p.x}" cy="${p.y}" r="5"></circle>;
     });
 
     labels.forEach((label,i) => {
@@ -1000,7 +999,7 @@ function makeRadarSvg(values) {
         let dy = 4;
         if (i === 0) dy = -2;
         if (i === 3) dy = 5;
-svg += `<text class="radar-label" x="${p.x}" y="${p.y + dy}" text-anchor="${anchor}">${label}</text>`;
+        svg += <text class="radar-label" x="${p.x}" y="${p.y + dy}" text-anchor="${anchor}">${label}</text>;
     });
 
     // Hiển thị mốc 25/50/75/100 nhỏ ở góc phải.
@@ -1029,12 +1028,12 @@ function renderDetailedAnalysis() {
 
     const values = [independence, autonomy, critical, verify, apply, responsible];
 
-    document.getElementById("analysis-dep-value").textContent = `${dependency}%`;
-    document.getElementById("analysis-autonomy-value").textContent = `${autonomy}%`;
-    document.getElementById("analysis-critical-value").textContent = `${critical}%`;
-    document.getElementById("analysis-verify-value").textContent = `${verify}%`;
-    document.getElementById("analysis-apply-value").textContent = `${apply}%`;
-    document.getElementById("analysis-responsible-value").textContent = `${responsible}%`;
+    document.getElementById("analysis-dep-value").textContent = ${dependency}%;
+    document.getElementById("analysis-autonomy-value").textContent = ${autonomy}%;
+    document.getElementById("analysis-critical-value").textContent = ${critical}%;
+    document.getElementById("analysis-verify-value").textContent = ${verify}%;
+    document.getElementById("analysis-apply-value").textContent = ${apply}%;
+    document.getElementById("analysis-responsible-value").textContent = ${responsible}%;
 
     document.getElementById("analysis-dep-text").textContent =
         analysisLevel(dependency, true);
@@ -1063,10 +1062,10 @@ function renderDetailedAnalysis() {
     const weakest = sortedPositive[sortedPositive.length - 1];
 
     let summary =
-        `Kết quả cho thấy bạn có một hồ sơ sử dụng AI với những đặc điểm riêng. ` +
-`Khía cạnh nổi bật nhất hiện tại là <strong>${strongest[0]}</strong> (${strongest[1]}%). ` +
-        `Một số khía cạnh cần được chú ý thêm gồm <strong>${weakest[0]}</strong> (${weakest[1]}%)` +
-        (dependency >= 50 ? ` và mức phụ thuộc AI đang ở ${dependency}%.` : ".");
+        Kết quả cho thấy bạn có một hồ sơ sử dụng AI với những đặc điểm riêng.  +
+        Khía cạnh nổi bật nhất hiện tại là <strong>${strongest[0]}</strong> (${strongest[1]}%).  +
+        Một số khía cạnh cần được chú ý thêm gồm <strong>${weakest[0]}</strong> (${weakest[1]}%) +
+        (dependency >= 50 ?  và mức phụ thuộc AI đang ở ${dependency}%. : ".");
 
     document.getElementById("analysis-summary-text").innerHTML = summary;
 
@@ -1081,7 +1080,7 @@ function renderDetailedAnalysis() {
         advice = "Tiếp tục duy trì quy trình: tự suy nghĩ → hỏi AI → kiểm chứng → tự hoàn thiện → tự làm lại.";
     }
 
-    document.getElementById("analysis-advice-text").textContent = ` ${advice}`;
+    document.getElementById("analysis-advice-text").textContent =  ${advice};
 
     document.getElementById("radar-chart").innerHTML = makeRadarSvg(values);
 }
