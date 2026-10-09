@@ -202,218 +202,6 @@ select,input{
 .navigation{
     display:flex;
     justify-content:space-between;
-    marginNguyên nhân làm đoạn code trước **không nhấn được nút** (nhấn vào nút "Bắt đầu kiểm tra" hay "Câu sau" không chuyển trang) là do **hai lỗi quan trọng**:
-
-1. **Chuỗi Template String trong JS bị lỗi:** Dấu đóng/mở câu lệnh như `` `Câu hỏi ${num} / ${total}` `` bị mất dấu huyền (``` ` ```) do dính ký tự khoảng trắng đặc biệt.
-2. **Code bị đứt đoạn ở hàm cuối:** Hàm `renderDetailedAnalysis()` bị ngắt giữa chừng khiến trình duyệt bị dừng thực thi toàn bộ JavaScript (SyntaxError).
-
-Dưới đây là **toàn bộ mã nguồn hoàn chỉnh 100%** đã được sửa sạch sẽ toàn bộ lỗi, nút bấm mượt mà, biểu đồ và gửi Google Sheets chuẩn chỉnh. Bạn chỉ cần copy và dán đè toàn bộ vào file `index.html`:
-
-```html
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Study Check 4.0 - Nhóm 11C1</title>
-
-<style>
-:root{
-    --primary:#4f46e5;
-    --primary-hover:#4338ca;
-    --bg:#f8fafc;
-    --card:#fff;
-    --text:#0f172a;
-    --muted:#64748b;
-    --border:#e2e8f0;
-    --green:#16a34a;
-    --red:#e11d48;
-    --orange:#ea580c;
-    --yellow:#ca8a04;
-}
-
-*{box-sizing:border-box}
-
-body{
-    margin:0;
-    font-family:"Segoe UI",Tahoma,sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    line-height:1.6;
-}
-
-.container{
-    max-width:900px;
-    margin:30px auto;
-    padding:18px;
-}
-
-.card{
-    background:white;
-    border-radius:20px;
-    padding:30px;
-    margin-bottom:22px;
-    box-shadow:0 5px 25px rgba(15,23,42,.07);
-}
-
-.screen{display:none}
-.screen.active{display:block}
-
-.text-center{text-align:center}
-
-h1{
-    color:#1e1b4b;
-    font-size:35px;
-    margin:8px 0;
-}
-
-h2{color:#1e1b4b}
-
-.subtitle{
-    color:var(--muted);
-    font-size:17px;
-}
-
-.notice{
-    padding:15px 18px;
-    border-radius:12px;
-    background:#eef2ff;
-    border-left:5px solid var(--primary);
-    margin:22px 0;
-}
-
-.info-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
-    margin:25px 0;
-}
-
-@media(max-width:650px){
-    .info-grid{grid-template-columns:1fr}
-}
-
-label{
-    display:block;
-    font-weight:700;
-    margin-bottom:7px;
-}
-
-select,input{
-    width:100%;
-    padding:12px;
-    border:2px solid var(--border);
-    border-radius:10px;
-    font-size:15px;
-    background:white;
-}
-
-.btn{
-    border:0;
-    border-radius:10px;
-    padding:13px 23px;
-    background:var(--primary);
-    color:white;
-    font-size:16px;
-    font-weight:700;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.btn:hover{
-    background:var(--primary-hover);
-    transform:translateY(-1px);
-}
-
-.btn-secondary{
-    background:#e2e8f0;
-    color:#334155;
-}
-
-.btn-secondary:hover{
-    background:#cbd5e1;
-}
-
-.btn-green{
-    background:var(--green);
-}
-
-.progress-header{
-    display:flex;
-    justify-content:space-between;
-    color:var(--muted);
-    font-size:14px;
-    font-weight:700;
-    margin-bottom:8px;
-}
-
-.progress-bar{
-    height:9px;
-    background:#e2e8f0;
-    border-radius:20px;
-    overflow:hidden;
-    margin-bottom:30px;
-}
-
-.progress-fill{
-    height:100%;
-    width:0;
-    background:var(--primary);
-    transition:.3s;
-}
-
-.question-number{
-    color:var(--primary);
-    font-weight:800;
-    margin-bottom:6px;
-}
-
-.question-category{
-    display:inline-block;
-    background:#eef2ff;
-    color:#4338ca;
-    padding:4px 10px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:800;
-    margin-bottom:10px;
-}
-
-.question-text{
-    font-size:21px;
-    font-weight:700;
-    margin-bottom:22px;
-}
-
-.options{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-}
-
-.option{
-    border:2px solid var(--border);
-    border-radius:11px;
-    padding:15px 18px;
-    cursor:pointer;
-    transition:.2s;
-    font-weight:600;
-}
-
-.option:hover{
-    background:#f8fafc;
-    border-color:#c7d2fe;
-}
-
-.option.selected{
-    background:#eef2ff;
-    border-color:var(--primary);
-    color:var(--primary);
-}
-
-.navigation{
-    display:flex;
-    justify-content:space-between;
     margin-top:30px;
     gap:12px;
 }
@@ -496,7 +284,8 @@ select,input{
     border-left:5px solid var(--green);
 }
 
-/* PHÂN TÍCH CHI TIẾT + RADAR */
+
+/* ================= PHÂN TÍCH CHI TIẾT + RADAR ================= */
 .analysis-section{
     margin-top:26px;
 }
@@ -684,12 +473,15 @@ select,input{
     <div style="font-size:64px">🧠</div>
     <h1>AI Study Check 4.0</h1>
     <p class="subtitle">
-        Hệ thống đánh giá mức độ sử dụng AI trong học tập và năng lực học tập độc lập.
+Hệ thống đánh giá mức độ sử dụng AI trong học tập
+và năng lực học tập độc lập.
     </p>
 
     <div class="notice" style="text-align:left">
         <strong>Lưu ý:</strong>
-        Đây là thang đo thử nghiệm do nhóm nghiên cứu xây dựng, chưa phải thang đo tâm lý được chuẩn hóa. Kết quả chỉ nhằm mục đích khảo sát và nghiên cứu khoa học.
+        Đây là thang đo thử nghiệm do nhóm nghiên cứu xây dựng,
+        chưa phải thang đo tâm lý được chuẩn hóa.
+        Kết quả chỉ nhằm mục đích khảo sát và nghiên cứu khoa học.
     </div>
 
     <div class="info-grid" style="text-align:left">
@@ -713,18 +505,23 @@ select,input{
     </div>
 
     <p>
-        <strong>Tác giả:</strong> Nguyễn Đức Bảo Trâm & Lưu Thanh Huyên — Lớp 11C1
+        <strong>Tác giả:</strong>
+        Nguyễn Đức Bảo Trâm & Lưu Thanh Huyên — Lớp 11C1
     </p>
-
-    <div style="text-align:left;margin:20px 0">
-        <label for="participant-code">Họ và tên</label>
-        <input id="participant-code" maxlength="50" placeholder="Nhập họ và tên của bạn">
-        <div class="tip">Họ tên được sử dụng để phân biệt các lượt tham gia khảo sát.</div>
+<div style="text-align:left;margin:20px 0">
+    <label for="participant-code">Họ và tên</label>
+    <input
+        id="participant-code"
+        maxlength="50"
+        placeholder="Nhập họ và tên của bạn"
+    >
+    <div class="tip">
+        Họ tên được sử dụng để phân biệt các lượt tham gia khảo sát.
     </div>
-
+</div>
     <div class="toolbar">
-        <button class="btn" onclick="startQuiz()">Bắt đầu kiểm tra ➜</button>
-        <button class="btn btn-secondary" onclick="openDashboard()">📈 Dashboard nghiên cứu</button>
+      <button class="btn" onclick="startQuiz()">Bắt đầu kiểm tra ➜</button>
+      <button class="btn btn-secondary" onclick="openDashboard()">📈 Dashboard nghiên cứu</button>
     </div>
 </section>
 
@@ -754,7 +551,7 @@ select,input{
 <!-- ================= RESULT ================= -->
 <section id="result" class="screen card">
     <h2 class="text-center">Kết Quả Đánh Giá</h2>
-    <p class="text-center subtitle" id="user-display-info"></p>
+<p class="text-center subtitle" id="user-display-info"></p>
 
     <div class="score-card">
         <div class="badge" id="result-badge">ĐANG PHÂN TÍCH</div>
@@ -790,7 +587,8 @@ select,input{
         </div>
     </div>
 
-    <!-- PHÂN TÍCH CHI TIẾT -->
+
+    <!-- ================= PHÂN TÍCH CHI TIẾT ================= -->
     <div class="analysis-section">
         <div class="analysis-title">🔎 Phân tích chi tiết</div>
 
@@ -843,11 +641,12 @@ select,input{
         </div>
     </div>
 
-    <!-- BIỂU ĐỒ RADAR -->
+    <!-- ================= BIỂU ĐỒ RADAR ================= -->
     <div class="radar-section">
         <div class="analysis-title">📊 Biểu đồ radar</div>
         <p class="radar-note">
-            Trên radar, trục “Độc lập” là chiều đảo của “Phụ thuộc AI”: điểm càng cao trên radar càng thể hiện xu hướng độc lập cao hơn.
+            Trên radar, trục “Độc lập” là chiều đảo của “Phụ thuộc AI”:
+            điểm càng cao trên radar càng thể hiện xu hướng độc lập cao hơn.
         </p>
         <div class="radar-wrap" id="radar-chart"></div>
     </div>
@@ -873,12 +672,12 @@ select,input{
 
 <!-- ================= DASHBOARD ================= -->
 <section id="dashboard" class="screen card">
-  <h2 class="text-center">📈 Dashboard nghiên cứu</h2>
+<h2 class="text-center">📈 Dashboard nghiên cứu</h2>
   <p class="subtitle text-center">Tổng hợp dữ liệu khảo sát từ Google Sheets.</p>
   <div class="dashboard-grid">
     <div class="stat-card">
       <div class="stat-label">SỐ LƯỢT ĐÃ LƯU TOÀN MẠNG</div>
-      <div class="stat-number" id="dash-count">Đang tải...</div>
+<div class="stat-number" id="dash-count">Đang tải...</div>
     </div>
   </div>
   <div class="toolbar">
@@ -889,14 +688,16 @@ select,input{
 <div class="footer-note">
     AI Study Check 4.0 · Nhóm nghiên cứu 11C1<br>
     📞 Contact with us:
-    <a href="tel:0868579082" style="color:#4f46e5;font-weight:700;text-decoration:none;">0868579082</a>
+    <a href="tel:0868579082" style="color:#4f46e5;font-weight:700;text-decoration:none;">
+        0868579082
+    </a>
 </div>
 
 </div>
 
 <script>
 // ==================== CẤU HÌNH ====================
-const SCRIPT_URL = "[https://script.google.com/macros/s/AKfycbxAv01FfgLgAPPxHMOiSMExaqS8ODoeT_dxODfDJv3k-YS8lTxNUgZO76MSL0nGIdSK/exec](https://script.google.com/macros/s/AKfycbxAv01FfgLgAPPxHMOiSMExaqS8ODoeT_dxODfDJv3k-YS8lTxNUgZO76MSL0nGIdSK/exec)";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxAv01FfgLgAPPxHMOiSMExaqS8ODoeT_dxODfDJv3k-YS8lTxNUgZO76MSL0nGIdSK/exec";
 
 const SUBJECT_NAMES = {
     natural: "Tự nhiên",
@@ -912,6 +713,8 @@ const SCALE = [
     "5 — Hoàn toàn đúng"
 ];
 
+// 20 câu: 4 câu cho mỗi nhóm chính, với dependency là chỉ số "rủi ro"
+// và các nhóm còn lại là năng lực tích cực.
 const QUESTIONS = [
     {id:1, dimension:"dependency", category:"Phụ thuộc AI", text:"Tôi thường hỏi AI ngay khi không biết cách bắt đầu một bài tập."},
     {id:2, dimension:"dependency", category:"Phụ thuộc AI", text:"Tôi thường yêu cầu AI giải hoàn chỉnh một bài tập thay vì tự giải trước."},
@@ -1067,7 +870,12 @@ function finishQuiz() {
     const verify = scoreDimension("verify");
     const responsible = scoreDimension("responsible");
 
+    // 5 nhóm có trong bộ 20 câu. "Vận dụng" được suy ra từ khả năng tự học
+    // và trách nhiệm sử dụng AI để giữ tương thích với cấu trúc dữ liệu cũ.
     const apply = Math.round((autonomy * 0.6 + critical * 0.4) * 10) / 10;
+
+    // Đảo chiều Dependency để điểm tổng hợp mang ý nghĩa "năng lực sử dụng AI độc lập":
+    // dependency cao => independence thấp.
     const independence = 100 - dependency;
     const overall = Math.round(
         (independence + autonomy + critical + verify + apply + responsible) / 6 * 10
@@ -1092,8 +900,8 @@ function finishQuiz() {
 
     document.getElementById("result-score").textContent = `${overall}/100`;
     document.getElementById("user-display-info").textContent =
-        `${document.getElementById("participant-code").value.trim()} · Khối ` +
-        `${document.getElementById("student-level").value} · Ban ` +
+        `${document.getElementById("participant-code").value.trim()} · ` +
+        `${document.getElementById("student-level").value} · ` +
         `${SUBJECT_NAMES[currentSubject]}`;
 
     let badge = "HỒ SƠ SỬ DỤNG AI CÂN BẰNG";
@@ -1116,13 +924,16 @@ function finishQuiz() {
     document.getElementById("result-badge").textContent = badge;
     document.getElementById("result-desc").textContent = desc;
 
+    // Phân tích chi tiết + biểu đồ radar được tạo sau khi có đầy đủ điểm.
     renderDetailedAnalysis();
 
     showScreen("result");
     sendToGoogleSheets(currentResultPayload());
 }
 
+
 function analysisLevel(score, reverse = false) {
+    // reverse=true dùng cho Phụ thuộc AI: điểm cao là xu hướng cần chú ý.
     if (reverse) {
         if (score >= 75) return "Mức khá cao. Bạn nên ưu tiên tự suy nghĩ và thử cách giải trước khi nhờ AI.";
         if (score >= 50) return "Có dấu hiệu sử dụng AI khá thường xuyên. Bạn nên chú ý dành thời gian tự suy nghĩ trước khi nhờ AI.";
@@ -1191,6 +1002,7 @@ function makeRadarSvg(values) {
         svg += `<text class="radar-label" x="${p.x}" y="${p.y + dy}" text-anchor="${anchor}">${label}</text>`;
     });
 
+    // Hiển thị mốc 25/50/75/100 nhỏ ở góc phải.
     svg += `
         <text x="510" y="385" text-anchor="end" font-size="10" fill="#94a3b8">100</text>
         <text x="510" y="400" text-anchor="end" font-size="10" fill="#94a3b8">75</text>
@@ -1213,6 +1025,7 @@ function renderDetailedAnalysis() {
     const responsible = Number(lastResult.responsible || 0);
 
     const independence = Math.max(0, Math.min(100, 100 - dependency));
+
     const values = [independence, autonomy, critical, verify, apply, responsible];
 
     document.getElementById("analysis-dep-value").textContent = `${dependency}%`;
@@ -1222,13 +1035,20 @@ function renderDetailedAnalysis() {
     document.getElementById("analysis-apply-value").textContent = `${apply}%`;
     document.getElementById("analysis-responsible-value").textContent = `${responsible}%`;
 
-    document.getElementById("analysis-dep-text").textContent = analysisLevel(dependency, true);
-    document.getElementById("analysis-autonomy-text").textContent = analysisLevel(autonomy);
-    document.getElementById("analysis-critical-text").textContent = analysisLevel(critical);
-    document.getElementById("analysis-verify-text").textContent = analysisLevel(verify);
-    document.getElementById("analysis-apply-text").textContent = analysisLevel(apply);
-    document.getElementById("analysis-responsible-text").textContent = analysisLevel(responsible);
+    document.getElementById("analysis-dep-text").textContent =
+        analysisLevel(dependency, true);
+    document.getElementById("analysis-autonomy-text").textContent =
+        analysisLevel(autonomy);
+    document.getElementById("analysis-critical-text").textContent =
+        analysisLevel(critical);
+    document.getElementById("analysis-verify-text").textContent =
+        analysisLevel(verify);
+    document.getElementById("analysis-apply-text").textContent =
+        analysisLevel(apply);
+    document.getElementById("analysis-responsible-text").textContent =
+        analysisLevel(responsible);
 
+    // Xác định các điểm mạnh/yếu để tạo phần tổng hợp.
     const positive = [
         ["năng lực tự học", autonomy],
         ["tư duy phản biện", critical],
@@ -1261,6 +1081,7 @@ function renderDetailedAnalysis() {
     }
 
     document.getElementById("analysis-advice-text").textContent = ` ${advice}`;
+
     document.getElementById("radar-chart").innerHTML = makeRadarSvg(values);
 }
 
@@ -1312,7 +1133,6 @@ function saveCurrentResult() {
     if (!lastResult) return;
     sendToGoogleSheets(currentResultPayload());
 }
-
 function fetchTotalSubmissions() {
     const countElem = document.getElementById("dash-count");
     if (!countElem || !SCRIPT_URL) return;
@@ -1331,4 +1151,21 @@ function fetchTotalSubmissions() {
 }
 
 function openDashboard() {
-    showScreen("
+    showScreen("dashboard");
+    fetchTotalSubmissions();
+}
+
+function restartQuiz() {
+    startQuiz();
+}
+
+function goHome() {
+    showScreen("home");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Không gọi Apps Script ngay khi mở trang; chỉ tải khi mở Dashboard.
+});
+</script>
+</body>
+</html>
