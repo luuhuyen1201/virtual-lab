@@ -1,1171 +1,644 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Study Check 4.0 - Nhóm 11C1</title>
-
-<style>
-:root{
-    --primary:#4f46e5;
-    --primary-hover:#4338ca;
-    --bg:#f8fafc;
-    --card:#fff;
-    --text:#0f172a;
-    --muted:#64748b;
-    --border:#e2e8f0;
-    --green:#16a34a;
-    --red:#e11d48;
-    --orange:#ea580c;
-    --yellow:#ca8a04;
-}
-
-*{box-sizing:border-box}
-
-body{
-    margin:0;
-    font-family:"Segoe UI",Tahoma,sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    line-height:1.6;
-}
-
-.container{
-    max-width:900px;
-    margin:30px auto;
-    padding:18px;
-}
-
-.card{
-    background:white;
-    border-radius:20px;
-    padding:30px;
-    margin-bottom:22px;
-    box-shadow:0 5px 25px rgba(15,23,42,.07);
-}
-
-.screen{display:none}
-.screen.active{display:block}
-
-.text-center{text-align:center}
-
-h1{
-    color:#1e1b4b;
-    font-size:35px;
-    margin:8px 0;
-}
-
-h2{color:#1e1b4b}
-
-.subtitle{
-    color:var(--muted);
-    font-size:17px;
-}
-
-.notice{
-    padding:15px 18px;
-    border-radius:12px;
-    background:#eef2ff;
-    border-left:5px solid var(--primary);
-    margin:22px 0;
-}
-
-.info-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
-    margin:25px 0;
-}
-
-@media(max-width:650px){
-    .info-grid{grid-template-columns:1fr}
-}
-
-label{
-    display:block;
-    font-weight:700;
-    margin-bottom:7px;
-}
-
-select,input{
-    width:100%;
-    padding:12px;
-    border:2px solid var(--border);
-    border-radius:10px;
-    font-size:15px;
-    background:white;
-}
-
-.btn{
-    border:0;
-    border-radius:10px;
-    padding:13px 23px;
-    background:var(--primary);
-    color:white;
-    font-size:16px;
-    font-weight:700;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.btn:hover{
-    background:var(--primary-hover);
-    transform:translateY(-1px);
-}
-
-.btn-secondary{
-    background:#e2e8f0;
-    color:#334155;
-}
-
-.btn-secondary:hover{
-    background:#cbd5e1;
-}
-
-.btn-green{
-    background:var(--green);
-}
-
-.progress-header{
-    display:flex;
-    justify-content:space-between;
-    color:var(--muted);
-    font-size:14px;
-    font-weight:700;
-    margin-bottom:8px;
-}
-
-.progress-bar{
-    height:9px;
-    background:#e2e8f0;
-    border-radius:20px;
-    overflow:hidden;
-    margin-bottom:30px;
-}
-
-.progress-fill{
-    height:100%;
-    width:0;
-    background:var(--primary);
-    transition:.3s;
-}
-
-.question-number{
-    color:var(--primary);
-    font-weight:800;
-    margin-bottom:6px;
-}
-
-.question-category{
-    display:inline-block;
-    background:#eef2ff;
-    color:#4338ca;
-    padding:4px 10px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:800;
-    margin-bottom:10px;
-}
-
-.question-text{
-    font-size:21px;
-    font-weight:700;
-    margin-bottom:22px;
-}
-
-.options{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-}
-
-.option{
-    border:2px solid var(--border);
-    border-radius:11px;
-    padding:15px 18px;
-    cursor:pointer;
-    transition:.2s;
-    font-weight:600;
-}
-
-.option:hover{
-    background:#f8fafc;
-    border-color:#c7d2fe;
-}
-
-.option.selected{
-    background:#eef2ff;
-    border-color:var(--primary);
-    color:var(--primary);
-}
-
-.navigation{
-    display:flex;
-    justify-content:space-between;
-    margin-top:30px;
-    gap:12px;
-}
-
-.score-card{
-    background:linear-gradient(135deg,#6366f1,#4f46e5);
-    color:white;
-    text-align:center;
-    border-radius:16px;
-    padding:28px;
-    margin-bottom:25px;
-}
-
-.score{
-    font-size:58px;
-    font-weight:900;
-    margin:5px 0;
-}
-
-.badge{
-    display:inline-block;
-    padding:6px 17px;
-    border-radius:30px;
-    background:rgba(255,255,255,.2);
-    font-weight:700;
-}
-
-.profile-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-    margin-bottom:25px;
-}
-
-@media(max-width:700px){
-    .profile-grid{grid-template-columns:1fr 1fr}
-}
-
-@media(max-width:480px){
-    .profile-grid{grid-template-columns:1fr}
-}
-
-.metric{
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:16px;
-    background:white;
-}
-
-.metric-title{
-    font-size:11px;
-    color:var(--muted);
-    font-weight:800;
-}
-
-.metric-value{
-    font-size:23px;
-    font-weight:900;
-}
-
-.ai-box{
-    background:#f0fdf4;
-    border:1px solid #bbf7d0;
-    border-radius:15px;
-    padding:20px;
-    margin-top:20px;
-}
-
-.ai-header{
-    color:#166534;
-    font-size:19px;
-    font-weight:800;
-}
-
-.advice-box{
-    margin-top:14px;
-    padding:17px;
-    border-radius:14px;
-    background:white;
-    border-left:5px solid var(--green);
-}
-
-
-/* ================= PHÂN TÍCH CHI TIẾT + RADAR ================= */
-.analysis-section{
-    margin-top:26px;
-}
-
-.analysis-title{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:19px;
-    font-weight:900;
-    color:#1e1b4b;
-    margin-bottom:12px;
-}
-
-.analysis-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-.analysis-card{
-    position:relative;
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:15px 14px 14px 16px;
-    background:#fff;
-    overflow:hidden;
-}
-
-.analysis-card::before{
-    content:"";
-    position:absolute;
-    left:0;
-    top:0;
-    bottom:0;
-    width:4px;
-    background:#4f46e5;
-}
-
-.analysis-card.dep::before{background:#f97316}
-.analysis-card.autonomy::before{background:#4f46e5}
-.analysis-card.critical::before{background:#e11d48}
-.analysis-card.verify::before{background:#f97316}
-.analysis-card.apply::before{background:#e11d48}
-.analysis-card.responsible::before{background:#16a34a}
-
-.analysis-card-title{
-    font-size:13px;
-    font-weight:900;
-    color:#334155;
-    margin-bottom:3px;
-}
-.analysis-card-value{
-    font-size:20px;
-    font-weight:900;
-    color:#0f172a;
-    margin-bottom:4px;
-}
-
-.analysis-card-text{
-    font-size:12.5px;
-    line-height:1.5;
-    color:#475569;
-}
-
-.analysis-summary{
-    margin-top:14px;
-    padding:15px;
-    border:1px solid #bbf7d0;
-    border-radius:12px;
-    background:#f0fdf4;
-}
-
-.analysis-summary-title{
-    color:#166534;
-    font-size:15px;
-    font-weight:900;
-    margin-bottom:5px;
-}
-
-.analysis-summary-text{
-    color:#334155;
-    font-size:13px;
-    line-height:1.55;
-}
-
-.analysis-advice{
-    margin-top:10px;
-    padding:14px 15px;
-    border-radius:11px;
-    background:#fff;
-    border-left:4px solid #16a34a;
-}
-
-.analysis-advice strong{
-    color:#166534;
-}
-
-.radar-section{
-    margin-top:26px;
-}
-
-.radar-note{
-    color:var(--muted);
-    font-size:12px;
-    margin:-5px 0 10px;
-}
-
-.radar-wrap{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    width:100%;
-    overflow:hidden;
-}
-
-.radar-wrap svg{
-    width:min(100%,560px);
-    height:auto;
-    display:block;
-}
-
-.radar-grid{
-    fill:none;
-    stroke:#cbd5e1;
-    stroke-width:1;
-}
-
-.radar-axis{
-    stroke:#cbd5e1;
-    stroke-width:1;
-}
-
-.radar-area{
-    fill:rgba(79,70,229,.16);
-    stroke:#4f46e5;
-    stroke-width:2.5;
-    stroke-linejoin:round;
-}
-
-.radar-point{
-    fill:#4f46e5;
-}
-
-.radar-label{
-    font-size:12px;
-    font-weight:800;
-    fill:#334155;
-}
-
-@media(max-width:650px){
-    .analysis-grid{grid-template-columns:1fr}
-    .radar-label{font-size:10px}
-}
-
-@media print{
-    .analysis-section,.radar-section{
-        break-inside:avoid;
-    }
-}
-
-.footer-note{
-    text-align:center;
-    color:var(--muted);
-    font-size:13px;
-    margin-top:25px;
-}
-
-.toolbar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
-.btn-small{padding:10px 15px;font-size:14px}
-.dashboard-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:12px;margin:18px 0}
-.stat-card{border:1px solid var(--border);border-radius:14px;padding:16px;background:#fff;text-align:center}
-.stat-label{font-size:12px;color:var(--muted);font-weight:800}.stat-number{font-size:36px;font-weight:900;color:var(--primary)}
-.tip{font-size:13px;color:var(--muted);margin-top:7px}
-@media print{body{background:#fff}.container{max-width:none;margin:0;padding:0}.screen:not(#result){display:none!important}.screen#result{display:block!important;box-shadow:none;margin:0;padding:0}.toolbar,.footer-note,.notice{display:none!important}.card{box-shadow:none}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mô Phỏng Vật Lý: Dao Động Điều Hòa</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .slider-thumb::-webkit-slider-thumb {
+            background: #2563eb;
+        }
+    </style>
 </head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
 
-<body>
-
-<div class="container">
-
-<!-- ================= HOME ================= -->
-<section id="home" class="screen card active text-center">
-    <div style="font-size:64px">🧠</div>
-    <h1>AI Study Check 4.0</h1>
-    <p class="subtitle">
-Hệ thống đánh giá mức độ sử dụng AI trong học tập
-và năng lực học tập độc lập.
-    </p>
-
-    <div class="notice" style="text-align:left">
-        <strong>Lưu ý:</strong>
-        Đây là thang đo thử nghiệm do nhóm nghiên cứu xây dựng,
-        chưa phải thang đo tâm lý được chuẩn hóa.
-        Kết quả chỉ nhằm mục đích khảo sát và nghiên cứu khoa học.
-    </div>
-
-    <div class="info-grid" style="text-align:left">
-        <div>
-            <label for="student-level">Khối lớp</label>
-            <select id="student-level">
-                <option value="10">Khối 10</option>
-                <option value="11" selected>Khối 11</option>
-                <option value="12">Khối 12</option>
-            </select>
-        </div>
-
-        <div>
-            <label for="student-subject">Lĩnh vực khảo sát</label>
-            <select id="student-subject">
-                <option value="natural">🧮 Tự nhiên</option>
-                <option value="social">📚 Xã hội</option>
-                <option value="language">🌎 Ngoại ngữ</option>
-            </select>
-        </div>
-    </div>
-
-    <p>
-        <strong>Tác giả:</strong>
-        Nguyễn Đức Bảo Trâm & Lưu Thanh Huyên — Lớp 11C1
-    </p>
-<div style="text-align:left;margin:20px 0">
-    <label for="participant-code">Họ và tên</label>
-    <input
-        id="participant-code"
-        maxlength="50"
-        placeholder="Nhập họ và tên của bạn"
-    >
-    <div class="tip">
-        Họ tên được sử dụng để phân biệt các lượt tham gia khảo sát.
-    </div>
-</div>
-    <div class="toolbar">
-      <button class="btn" onclick="startQuiz()">Bắt đầu kiểm tra ➜</button>
-      <button class="btn btn-secondary" onclick="openDashboard()">📈 Dashboard nghiên cứu</button>
-    </div>
-</section>
-
-<!-- ================= QUIZ ================= -->
-<section id="quiz" class="screen card">
-    <div class="progress-header">
-        <span id="progress-text">Câu hỏi 1 / 20</span>
-        <span id="progress-percent">5%</span>
-    </div>
-
-    <div class="progress-bar">
-        <div id="progress-fill" class="progress-fill"></div>
-    </div>
-
-    <div class="question-number" id="question-num">CÂU 1</div>
-    <div class="question-category" id="question-category">Nhóm chỉ số</div>
-    <div class="question-text" id="question-txt">Đang tải câu hỏi...</div>
-    <div class="options" id="options-container"></div>
-
-    <div class="navigation">
-        <button class="btn btn-secondary" id="btn-prev" onclick="prevQuestion()" disabled>← Câu trước</button>
-        <button class="btn btn-secondary" onclick="goHome()">🏠 Trở về trang đầu</button>
-        <button class="btn" id="btn-next" onclick="nextQuestion()">Câu sau →</button>
-    </div>
-</section>
-
-<!-- ================= RESULT ================= -->
-<section id="result" class="screen card">
-    <h2 class="text-center">Kết Quả Đánh Giá</h2>
-<p class="text-center subtitle" id="user-display-info"></p>
-
-    <div class="score-card">
-        <div class="badge" id="result-badge">ĐANG PHÂN TÍCH</div>
-        <div class="score" id="result-score">0/100</div>
-        <p style="margin:5px 0 0;font-weight:600" id="result-desc"></p>
-    </div>
-
-    <!-- METRICS -->
-    <div class="profile-grid">
-        <div class="metric">
-            <div class="metric-title">AI DEPENDENCY</div>
-            <div class="metric-value" style="color:#e11d48" id="metric-dep">0%</div>
-        </div>
-        <div class="metric">
-            <div class="metric-title">TỰ HỌC</div>
-            <div class="metric-value" style="color:#16a34a" id="metric-autonomy">0%</div>
-        </div>
-        <div class="metric">
-            <div class="metric-title">TƯ DUY PHẢN BIỆN</div>
-            <div class="metric-value" style="color:#4f46e5" id="metric-critical">0%</div>
-        </div>
-        <div class="metric">
-            <div class="metric-title">KIỂM CHỨNG AI</div>
-            <div class="metric-value" style="color:#0891b2" id="metric-verify">0%</div>
-        </div>
-        <div class="metric">
-            <div class="metric-title">VẬN DỤNG</div>
-            <div class="metric-value" style="color:#ea580c" id="metric-apply">0%</div>
-        </div>
-        <div class="metric">
-            <div class="metric-title">AI CÓ TRÁCH NHIỆM</div>
-            <div class="metric-value" style="color:#7c3aed" id="metric-responsible">0%</div>
-        </div>
-    </div>
-
-
-    <!-- ================= PHÂN TÍCH CHI TIẾT ================= -->
-    <div class="analysis-section">
-        <div class="analysis-title">🔎 Phân tích chi tiết</div>
-
-        <div class="analysis-grid">
-            <div class="analysis-card dep">
-                <div class="analysis-card-title">🤖 Phụ thuộc AI</div>
-                <div class="analysis-card-value" id="analysis-dep-value">0%</div>
-                <div class="analysis-card-text" id="analysis-dep-text"></div>
+    <!-- Header -->
+    <header class="bg-slate-800 border-b border-slate-700 py-4 px-6 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-blue-400 flex items-center gap-2">
+                    <i class="fa-solid fa-atom animate-spin" style="animation-duration: 8s;"></i> 
+                    Khám Phá Dao Động Điều Hòa
+                </h1>
+                <p class="text-sm text-slate-400">Tương tác trực quan, Nắm vững lý thuyết, Chinh phục điểm số cho học sinh trung bình - khá</p>
             </div>
-
-            <div class="analysis-card autonomy">
-                <div class="analysis-card-title">📖 Năng lực tự học</div>
-                <div class="analysis-card-value" id="analysis-autonomy-value">0%</div>
-                <div class="analysis-card-text" id="analysis-autonomy-text"></div>
-            </div>
-
-            <div class="analysis-card critical">
-                <div class="analysis-card-title">🧠 Tư duy phản biện</div>
-                <div class="analysis-card-value" id="analysis-critical-value">0%</div>
-                <div class="analysis-card-text" id="analysis-critical-text"></div>
-            </div>
-
-            <div class="analysis-card verify">
-                <div class="analysis-card-title">🔍 Kiểm chứng thông tin</div>
-                <div class="analysis-card-value" id="analysis-verify-value">0%</div>
-                <div class="analysis-card-text" id="analysis-verify-text"></div>
-            </div>
-
-            <div class="analysis-card apply">
-                <div class="analysis-card-title">💡 Vận dụng kiến thức</div>
-                <div class="analysis-card-value" id="analysis-apply-value">0%</div>
-                <div class="analysis-card-text" id="analysis-apply-text"></div>
-            </div>
-
-            <div class="analysis-card responsible">
-                <div class="analysis-card-title">🌐 Sử dụng AI có trách nhiệm</div>
-                <div class="analysis-card-value" id="analysis-responsible-value">0%</div>
-                <div class="analysis-card-text" id="analysis-responsible-text"></div>
+            <div class="flex gap-2">
+                <button onclick="switchTab('simulation')" id="btn-simulation" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-gamepad"></i> Mô Phỏng & Tương Tác
+                </button>
+                <button onclick="switchTab('quiz')" id="btn-quiz" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg font-medium transition flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-circle-question"></i> Trắc Nghiệm & Tự Luận
+                </button>
+                <button onclick="switchTab('theory')" id="btn-theory" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg font-medium transition flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-book-open"></i> Sổ Tay Công Thức
+                </button>
             </div>
         </div>
+    </header>
 
-        <div class="analysis-summary">
-            <div class="analysis-summary-title">📊 Phân tích tổng hợp</div>
-            <div class="analysis-summary-text" id="analysis-summary-text"></div>
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6">
 
-            <div class="analysis-advice">
-                <strong>💡 Vận dụng:</strong>
-                <span id="analysis-advice-text"></span>
+        <!-- TAB 1: SIMULATION -->
+        <div id="tab-simulation" class="space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Cột Trái & Giữa: Mô phỏng đồ họa & Điều khiển -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Canvas Mô Phỏng -->
+                    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4 shadow-lg relative overflow-hidden">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold"><i class="fa-solid fa-wave-square"></i> Trục Tọa Độ & Chất Điểm (Có thể kéo thả)</span>
+                            <div class="flex items-center gap-2">
+                                <span id="mode-indicator" class="text-xs px-2 py-0.5 bg-blue-900/60 text-blue-300 rounded border border-blue-700">Đang chạy tự động</span>
+                                <button onclick="toggleRunState()" id="run-pause-btn" class="text-xs bg-slate-700 hover:bg-slate-600 px-2.5 py-1 rounded transition text-slate-200">
+                                    <i class="fa-solid fa-pause"></i> Tạm dừng
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Canvas -->
+                        <div class="relative w-full h-64 bg-slate-950 rounded-xl border border-slate-800 overflow-hidden cursor-pointer" id="sim-container">
+                            <canvas id="simCanvas" class="w-full h-full"></canvas>
+                        </div>
+                        <div class="mt-2 text-xs text-slate-400 flex justify-between">
+                            <span>Biên âm (-A)</span>
+                            <span>Vị trí cân bằng (O = 0)</span>
+                            <span>Biên dương (+A)</span>
+                        </div>
+                    </div>
+
+                    <!-- Bảng Thông Số Trực Tiếp trên Chất Điểm -->
+                    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-lg">
+                        <h3 class="text-sm font-semibold text-blue-300 mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-gauge-high"></i> Thông Số Tức Thời Tại Chất Điểm
+                        </h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
+                            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700">
+                                <div class="text-slate-400 text-xs">Li độ (x)</div>
+                                <div id="val-x" class="text-lg font-bold text-blue-400">0.00 cm</div>
+                            </div>
+                            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700">
+                                <div class="text-slate-400 text-xs">Vận tốc (v)</div>
+                                <div id="val-v" class="text-lg font-bold text-emerald-400">0.00 cm/s</div>
+                            </div>
+                            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700">
+                                <div class="text-slate-400 text-xs">Gia tốc (a)</div>
+                                <div id="val-a" class="text-lg font-bold text-amber-400">0.00 cm/s²</div>
+                            </div>
+                            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700">
+                                <div class="text-slate-400 text-xs">Động năng ($W_đ$)</div>
+                                <div id="val-wd" class="text-lg font-bold text-purple-400">0.00 mJ</div>
+                            </div>
+                            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700">
+                                <div class="text-slate-400 text-xs">Thế năng ($W_t$)</div>
+                                <div id="val-wt" class="text-lg font-bold text-pink-400">0.00 mJ</div>
+                            </div>
+                            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700">
+                                <div class="text-slate-400 text-xs">Cơ năng ($W$)</div>
+                                <div id="val-w" class="text-lg font-bold text-cyan-400">0.00 mJ</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Biểu đồ năng lượng cột -->
+                    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-lg">
+                        <h3 class="text-sm font-semibold text-blue-300 mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-chart-bar"></i> Biểu Đồ Năng Lượng Chuyển Hóa
+                        </h3>
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-purple-300 font-medium">Động năng ($W_đ = \frac{1}{2}mv^2$)</span>
+                                    <span id="bar-wd-text">0%</span>
+                                </div>
+                                <div class="w-full bg-slate-900 h-3 rounded-full overflow-hidden border border-slate-700">
+                                    <div id="bar-wd" class="bg-purple-500 h-full transition-all duration-75" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-pink-300 font-medium">Thế năng ($W_t = \frac{1}{2}kx^2$)</span>
+                                    <span id="bar-wt-text">0%</span>
+                                </div>
+                                <div class="w-full bg-slate-900 h-3 rounded-full overflow-hidden border border-slate-700">
+                                    <div id="bar-wt" class="bg-pink-500 h-full transition-all duration-75" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cột Phải: Bảng Điều Khiển Thông Số & Trạng Thái Đặc Biệt -->
+                <div class="space-y-6">
+                    <!-- Bảng Điều Khiển Thanh Trượt -->
+                    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-lg space-y-4">
+                        <h3 class="text-base font-bold text-blue-300 flex items-center gap-2">
+                            <i class="fa-solid fa-sliders"></i> Thông Số Dao Động
+                        </h3>
+                        
+                        <!-- Biên độ A -->
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-slate-300">Biên độ ($A$):</span>
+                                <span id="label-A" class="font-bold text-blue-400">10 cm</span>
+                            </div>
+                            <input type="range" id="input-A" min="2" max="15" step="1" value="10" 
+                                class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                        </div>
+
+                        <!-- Tần số góc ω -->
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-slate-300">Tần số góc ($\omega$):</span>
+                                <span id="label-omega" class="font-bold text-emerald-400">5 rad/s</span>
+                            </div>
+                            <input type="range" id="input-omega" min="1" max="10" step="0.5" value="5" 
+                                class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                        </div>
+
+                        <!-- Pha ban đầu φ -->
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-slate-300">Pha ban đầu ($\varphi$):</span>
+                                <span id="label-phi" class="font-bold text-amber-400">0.00 rad</span>
+                            </div>
+                            <input type="range" id="input-phi" min="-3.14" max="3.14" step="0.1" value="0" 
+                                class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500">
+                        </div>
+
+                        <!-- Thông số suy ra -->
+                        <div class="pt-3 border-t border-slate-700 grid grid-cols-2 gap-3 text-xs">
+                            <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-700">
+                                <span class="text-slate-400">Chu kỳ ($T$):</span>
+                                <div id="calc-T" class="text-sm font-bold text-slate-200">1.26 s</div>
+                            </div>
+                            <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-700">
+                                <span class="text-slate-400">Tần số ($f$):</span>
+                                <div id="calc-f" class="text-sm font-bold text-slate-200">0.80 Hz</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bảng Nhắc Nhở Vị Trí Đặc Biệt (Điểm Sáng Tạo) -->
+                    <div class="bg-gradient-to-br from-blue-950/60 to-slate-800 border border-blue-900/50 rounded-2xl p-5 shadow-lg">
+                        <h3 class="text-sm font-bold text-blue-300 mb-2 flex items-center gap-2">
+                            <span class="flex h-2 w-2 relative">
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                            </span>
+                            Nhận Xét Vị Trí Đang Chọn
+                        </h3>
+                        <p id="position-insight" class="text-xs text-slate-300 leading-relaxed">
+                            Hãy kéo chất điểm đến <b>Vị trí cân bằng (O)</b> hoặc <b>Vị trí Biên ($\pm A$)</b> để quan sát các giá trị cực trị của vận tốc, gia tốc và năng lượng!
+                        </p>
+                    </div>
+
+                    <!-- Nút Chuyển Nhanh Tới Trắc Nghiệm -->
+                    <button onclick="switchTab('quiz')" class="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-xl font-semibold shadow-lg transition flex items-center justify-center gap-2 text-sm">
+                        <i class="fa-solid fa-pen-to-square"></i> Làm Câu Hỏi & Tự Luận Ôn Tập
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- ================= BIỂU ĐỒ RADAR ================= -->
-    <div class="radar-section">
-        <div class="analysis-title">📊 Biểu đồ radar</div>
-        <p class="radar-note">
-            Trên radar, trục “Độc lập” là chiều đảo của “Phụ thuộc AI”:
-            điểm càng cao trên radar càng thể hiện xu hướng độc lập cao hơn.
-        </p>
-        <div class="radar-wrap" id="radar-chart"></div>
-    </div>
+        <!-- TAB 2: QUIZ & ESSAY (Trắc nghiệm + Tự luận) -->
+        <div id="tab-quiz" class="hidden space-y-6 max-w-4xl mx-auto">
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-lg">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-blue-300 flex items-center gap-2">
+                            <i class="fa-solid fa-list-check"></i> Hệ Thống Trắc Nghiệm & Tự Luận Sáng Tạo
+                        </h2>
+                        <p class="text-xs text-slate-400">Kiểm tra mức độ hiểu bài dành cho học sinh trung bình - khá</p>
+                    </div>
+                    <div class="text-right">
+                        <span id="quiz-score" class="text-lg font-bold text-emerald-400">Điểm: 0 / 10</span>
+                    </div>
+                </div>
 
-    <div class="toolbar">
-      <button class="btn btn-green btn-small" onclick="saveCurrentResult()">💾 Đồng bộ lại kết quả</button>
-      <button class="btn btn-secondary btn-small" onclick="window.print()">🖨️ In / Lưu PDF</button>
-      <button class="btn btn-secondary btn-small" onclick="openDashboard()">📈 Dashboard</button>
-    </div>
+                <!-- Danh sách câu hỏi -->
+                <div id="quiz-container" class="space-y-6">
+                    <!-- Câu hỏi được render bằng Javascript -->
+                </div>
 
-    <div id="save-status" class="tip text-center" style="font-weight:bold; color:var(--green); margin-top:10px;"></div>
+                <div class="mt-6 pt-4 border-t border-slate-700 flex justify-end">
+                    <button onclick="checkAnswers()" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 rounded-xl font-semibold text-sm transition shadow-lg">
+                        <i class="fa-solid fa-check-double"></i> Nộp Bài & Xem Giải Chi Tiết
+                    </button>
+                </div>
+            </div>
+        </div>
 
-    <div class="notice" style="margin-top:25px">
-        <strong>📌 Lưu ý khi đọc kết quả:</strong><br>
-        Kết quả phản ánh xu hướng trả lời trong bài khảo sát, không phải chẩn đoán tâm lý hoặc đánh giá chính thức về năng lực học tập của người tham gia.
-    </div>
+        <!-- TAB 3: THEORY & FORMULA (Sổ tay công thức) -->
+        <div id="tab-theory" class="hidden space-y-6 max-w-4xl mx-auto">
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-lg space-y-6">
+                <h2 class="text-xl font-bold text-blue-300 flex items-center gap-2 border-b border-slate-700 pb-4">
+                    <i class="fa-solid fa-book-bookmark"></i> Sổ Tay Tóm Tắt Kiến Thức Dao Động Điều Hòa
+                </h2>
 
-    <div class="text-center" style="margin-top:25px">
-        <button class="btn" onclick="restartQuiz()">🔄 Làm bài lại</button>
-        <button class="btn btn-secondary" onclick="goHome()" style="margin-left:8px">🏠 Về trang đầu</button>
-    </div>
-</section>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700">
+                        <h4 class="font-bold text-blue-400 text-sm mb-2">1. Phương trình li độ</h4>
+                        <p class="text-sm text-slate-300 font-mono bg-slate-950 p-2 rounded">x = A cos(\(\omega\)t + \(\varphi\))</p>
+                        <p class="text-xs text-slate-400 mt-2">Trong đó: \(A\) là biên độ (cm, m), \(\omega\) là tần số góc (rad/s), \(\varphi\) là pha ban đầu (rad).</p>
+                    </div>
 
-<!-- ================= DASHBOARD ================= -->
-<section id="dashboard" class="screen card">
-<h2 class="text-center">📈 Dashboard nghiên cứu</h2>
-  <p class="subtitle text-center">Tổng hợp dữ liệu khảo sát từ Google Sheets.</p>
-  <div class="dashboard-grid">
-    <div class="stat-card">
-      <div class="stat-label">SỐ LƯỢT ĐÃ LƯU TOÀN MẠNG</div>
-<div class="stat-number" id="dash-count">Đang tải...</div>
-    </div>
-  </div>
-  <div class="toolbar">
-    <button class="btn btn-secondary btn-small" onclick="goHome()">🏠 Về trang đầu</button>
-  </div>
-</section>
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700">
+                        <h4 class="font-bold text-emerald-400 text-sm mb-2">2. Vận tốc và Gia tốc</h4>
+                        <p class="text-sm text-slate-300 font-mono bg-slate-950 p-2 rounded">v = x' = -\(\omega\)A sin(\(\omega\)t + \(\varphi\))</p>
+                        <p class="text-sm text-slate-300 font-mono bg-slate-950 p-2 rounded mt-1">a = v' = -\(\omega\)\(^2\)x</p>
+                        <p class="text-xs text-slate-400 mt-2">Vận tốc sớm pha \(\frac{\pi}{2}\) so với li độ; gia tốc ngược pha với li độ.</p>
+                    </div>
 
-<div class="footer-note">
-    AI Study Check 4.0 · Nhóm nghiên cứu 11C1<br>
-    📞 Contact with us:
-    <a href="tel:0868579082" style="color:#4f46e5;font-weight:700;text-decoration:none;">
-        0868579082
-    </a>
-</div>
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700">
+                        <h4 class="font-bold text-purple-400 text-sm mb-2">3. Năng lượng trong dao động</h4>
+                        <p class="text-sm text-slate-300 font-mono bg-slate-950 p-2 rounded">W\(_đ\) = \(\frac{1}{2}\) m v\(^2\)</p>
+                        <p class="text-sm text-slate-300 font-mono bg-slate-950 p-2 rounded mt-1">W\(_t\) = \(\frac{1}{2}\) k x\(^2\)</p>
+                        <p class="text-sm text-slate-300 font-mono bg-slate-950 p-2 rounded mt-1">W = W\(_đ\) + W\(_t\) = \(\frac{1}{2}\) k A\(^2\)</p>
+                    </div>
 
-</div>
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700">
+                        <h4 class="font-bold text-amber-400 text-sm mb-2">4. Chu kỳ và Tần số</h4>
+                        <p class="text-sm text-slate-300 font-mono bg-slate-950 p-2 rounded">T = \(\frac{2\pi}{\omega}\) = 2\(\pi\)\(\sqrt{\frac{m}{k}}\)</p>
+                        <p class="text-sm text-slate-300 font-mono bg-slate-950 p-2 rounded mt-1">f = \(\frac{1}{T}\) = \(\frac{\omega}{2\pi}\)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<script>
-// ==================== CẤU HÌNH ====================
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxAv01FfgLgAPPxHMOiSMExaqS8ODoeT_dxODfDJv3k-YS8lTxNUgZO76MSL0nGIdSK/exec";
+    </main>
 
-const SUBJECT_NAMES = {
-    natural: "Tự nhiên",
-    social: "Xã hội",
-    language: "Ngoại ngữ"
-};
+    <!-- Footer -->
+    <footer class="bg-slate-800 border-t border-slate-700 py-3 text-center text-xs text-slate-400 mt-auto">
+        Ứng dụng hỗ trợ học tập môn Vật lý - Dành cho học sinh trung bình & khá.
+    </footer>
 
-const SCALE = [
-    "1 — Hoàn toàn không đúng",
-    "2 — Ít đúng",
-    "3 — Đôi khi đúng",
-    "4 — Thường xuyên đúng",
-    "5 — Hoàn toàn đúng"
-];
-
-// 20 câu: 4 câu cho mỗi nhóm chính, với dependency là chỉ số "rủi ro"
-// và các nhóm còn lại là năng lực tích cực.
-const QUESTIONS = [
-    {id:1, dimension:"dependency", category:"Phụ thuộc AI", text:"Tôi thường hỏi AI ngay khi không biết cách bắt đầu một bài tập."},
-    {id:2, dimension:"dependency", category:"Phụ thuộc AI", text:"Tôi thường yêu cầu AI giải hoàn chỉnh một bài tập thay vì tự giải trước."},
-    {id:3, dimension:"dependency", category:"Phụ thuộc AI", text:"Tôi từng đưa toàn bộ đề bài cho AI và sử dụng trực tiếp câu trả lời."},
-    {id:4, dimension:"dependency", category:"Phụ thuộc AI", text:"Khi bài tập khó, tôi có xu hướng để AI quyết định cách giải quyết thay mình."},
-
-    {id:5, dimension:"autonomy", category:"Năng lực tự học", text:"Tôi thường tự suy nghĩ và thử giải quyết vấn đề trước khi hỏi AI."},
-    {id:6, dimension:"autonomy", category:"Năng lực tự học", text:"Tôi có thể tự xác định mình cần làm gì khi gặp một bài tập mới."},
-    {id:7, dimension:"autonomy", category:"Năng lực tự học", text:"Sau khi tham khảo AI, tôi có thể tự làm lại bài mà không cần nhìn câu trả lời."},
-    {id:8, dimension:"autonomy", category:"Năng lực tự học", text:"Tôi có thể tiếp tục làm bài khi không có AI hướng dẫn từng bước."},
-
-    {id:9, dimension:"critical", category:"Tư duy phản biện", text:"Tôi có thể tự giải thích vì sao mình chọn một đáp án hoặc cách giải."},
-    {id:10, dimension:"critical", category:"Tư duy phản biện", text:"Tôi đặt câu hỏi khi câu trả lời của AI chưa có đủ lý do hoặc bằng chứng."},
-    {id:11, dimension:"critical", category:"Tư duy phản biện", text:"Tôi có thể nhận ra khi câu trả lời của AI không phù hợp với yêu cầu của bài."},
-    {id:12, dimension:"critical", category:"Tư duy phản biện", text:"Tôi không mặc định cho rằng câu trả lời của AI luôn đúng."},
-
-    {id:13, dimension:"verify", category:"Kiểm chứng AI", text:"Tôi kiểm tra lại thông tin trước khi sử dụng câu trả lời của AI."},
-    {id:14, dimension:"verify", category:"Kiểm chứng AI", text:"Tôi thường so sánh câu trả lời của AI với sách giáo khoa hoặc nguồn khác."},
-    {id:15, dimension:"verify", category:"Kiểm chứng AI", text:"Khi AI đưa ra thông tin quan trọng, tôi chủ động tìm nguồn khác để đối chiếu."},
-    {id:16, dimension:"verify", category:"Kiểm chứng AI", text:"Khi phát hiện AI có thể trả lời sai, tôi chủ động tìm cách kiểm tra và sửa lại."},
-
-    {id:17, dimension:"responsible", category:"AI có trách nhiệm", text:"Tôi sử dụng AI như một công cụ hỗ trợ chứ không hoàn toàn thay thế suy nghĩ của mình."},
-    {id:18, dimension:"responsible", category:"AI có trách nhiệm", text:"Tôi kiểm tra và chỉnh sửa nội dung AI tạo ra trước khi đưa vào bài làm."},
-    {id:19, dimension:"responsible", category:"AI có trách nhiệm", text:"Tôi tránh sử dụng nguyên văn câu trả lời của AI khi chưa hiểu nội dung."},
-    {id:20, dimension:"responsible", category:"AI có trách nhiệm", text:"Tôi cân nhắc tính chính xác và phù hợp của nội dung AI trước khi sử dụng."}
-];
-
-let currentQuestion = 0;
-let answers = {};
-let currentSubject = "natural";
-let currentSubmissionId = "";
-let lastResult = null;
-let lastOverall = 0;
-
-function makeSubmissionId() {
-    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    return "SUB-" + Date.now() + "-" + Math.random().toString(36).slice(2,10);
-}
-
-function showScreen(id) {
-    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-    const target = document.getElementById(id);
-    if (target) target.classList.add("active");
-    window.scrollTo({top:0, behavior:"smooth"});
-}
-
-function startQuiz() {
-    try {
-        const name = document.getElementById("participant-code").value.trim();
-        if (!name) {
-            alert("Vui lòng nhập họ và tên trước khi bắt đầu.");
-            document.getElementById("participant-code").focus();
-            return;
+    <!-- Script Xử Lý Mô Phỏng & Trắc Nghiệm -->
+    <script>
+        // --- CHUYỂN TAB ---
+        function switchTab(tabId) {
+            ['simulation', 'quiz', 'theory'].forEach(id => {
+                document.getElementById('tab-' + id).classList.add('hidden');
+                document.getElementById('btn-' + id).classList.remove('bg-blue-600', 'hover:bg-blue-500');
+                document.getElementById('btn-' + id).classList.add('bg-slate-700', 'hover:bg-slate-600');
+            });
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.getElementById('btn-' + tabId).classList.remove('bg-slate-700', 'hover:bg-slate-600');
+            document.getElementById('btn-' + tabId).classList.add('bg-blue-600', 'hover:bg-blue-500');
         }
 
-        currentSubject = document.getElementById("student-subject").value;
-        currentQuestion = 0;
-        answers = {};
-        currentSubmissionId = makeSubmissionId();
-        lastResult = null;
-        lastOverall = 0;
+        // --- MÔ PHỎNG CANVAS ---
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('sim-container');
 
-        showScreen("quiz");
-        renderQuestion();
-    } catch (error) {
-        console.error(error);
-        alert("Không thể bắt đầu bài kiểm tra. Vui lòng tải lại trang và thử lại.");
-    }
-}
+        let A = 10; // Biên độ (đơn vị ảo trên canvas, quy ước cm)
+        let omega = 5; // Tần số góc (rad/s)
+        let phi = 0; // Pha ban đầu
+        let m = 0.1; // Khối lượng 100g = 0.1 kg
+        let time = 0;
+        let isRunning = true;
+        let isDragging = false;
 
-function renderQuestion() {
-    const q = QUESTIONS[currentQuestion];
-    if (!q) return;
+        // Lấy các phần tử UI
+        const inputA = document.getElementById('input-A');
+        const inputOmega = document.getElementById('input-omega');
+        const inputPhi = document.getElementById('input-phi');
+        
+        const labelA = document.getElementById('label-A');
+        const labelOmega = document.getElementById('label-omega');
+        const labelPhi = document.getElementById('label-phi');
 
-    const total = QUESTIONS.length;
-    const num = currentQuestion + 1;
-    const percent = Math.round((num / total) * 100);
+        const valX = document.getElementById('val-x');
+        const valV = document.getElementById('val-v');
+        const valA = document.getElementById('val-a');
+        const valWd = document.getElementById('val-wd');
+        const valWt = document.getElementById('val-wt');
+        const valW = document.getElementById('val-w');
 
-    document.getElementById("progress-text").textContent = `Câu hỏi ${num} / ${total}`;
-    document.getElementById("progress-percent").textContent = `${percent}%`;
-    document.getElementById("progress-fill").style.width = `${percent}%`;
-    document.getElementById("question-num").textContent = `CÂU ${num}`;
-    document.getElementById("question-category").textContent = q.category;
-    document.getElementById("question-txt").textContent = q.text;
+        const barWd = document.getElementById('bar-wd');
+        const barWt = document.getElementById('bar-wt');
+        const barWdText = document.getElementById('bar-wd-text');
+        const barWtText = document.getElementById('bar-wt-text');
 
-    const box = document.getElementById("options-container");
-    box.innerHTML = "";
+        const calcT = document.getElementById('calc-T');
+        const calcF = document.getElementById('calc-f');
+        const positionInsight = document.getElementById('position-insight');
+        const modeIndicator = document.getElementById('mode-indicator');
+        const runPauseBtn = document.getElementById('run-pause-btn');
 
-    SCALE.forEach((label, index) => {
-        const value = index + 1;
-        const option = document.createElement("div");
-        option.className = "option";
-        option.textContent = label;
-        option.onclick = () => selectAnswer(value);
+        function updateInputs() {
+            A = parseFloat(inputA.value);
+            omega = parseFloat(inputOmega.value);
+            phi = parseFloat(inputPhi.value);
 
-        if (answers[q.id] === value) option.classList.add("selected");
-        box.appendChild(option);
-    });
+            labelA.innerText = A + " cm";
+            labelOmega.innerText = omega + " rad/s";
+            labelPhi.innerText = phi.toFixed(2) + " rad";
 
-    document.getElementById("btn-prev").disabled = currentQuestion === 0;
+            let T = (2 * Math.PI) / omega;
+            let f = 1 / T;
+            calcT.innerText = T.toFixed(2) + " s";
+            calcF.innerText = f.toFixed(2) + " Hz";
+        }
 
-    const nextBtn = document.getElementById("btn-next");
-    nextBtn.textContent = currentQuestion === total - 1 ? "Hoàn thành ✓" : "Câu sau →";
-}
-
-function selectAnswer(value) {
-    const q = QUESTIONS[currentQuestion];
-    answers[q.id] = value;
-    renderQuestion();
-}
-
-function prevQuestion() {
-    if (currentQuestion > 0) {
-        currentQuestion--;
-        renderQuestion();
-    }
-}
-
-function nextQuestion() {
-    const q = QUESTIONS[currentQuestion];
-
-    if (!answers[q.id]) {
-        alert("Vui lòng chọn một phương án trước khi tiếp tục.");
-        return;
-    }
-
-    if (currentQuestion < QUESTIONS.length - 1) {
-        currentQuestion++;
-        renderQuestion();
-    } else {
-        finishQuiz();
-    }
-}
-
-function scoreDimension(dimension) {
-    const items = QUESTIONS.filter(q => q.dimension === dimension);
-    const values = items.map(q => Number(answers[q.id] || 0));
-    if (!values.length || values.some(v => !v)) return 0;
-    const avg = values.reduce((a,b) => a+b, 0) / values.length;
-    return Math.round((avg / 5) * 100);
-}
-
-function finishQuiz() {
-    const unanswered = QUESTIONS.filter(q => !answers[q.id]);
-    if (unanswered.length) {
-        alert(`Bạn còn ${unanswered.length} câu chưa trả lời.`);
-        return;
-    }
-
-    const dependency = scoreDimension("dependency");
-    const autonomy = scoreDimension("autonomy");
-    const critical = scoreDimension("critical");
-    const verify = scoreDimension("verify");
-    const responsible = scoreDimension("responsible");
-
-    // 5 nhóm có trong bộ 20 câu. "Vận dụng" được suy ra từ khả năng tự học
-    // và trách nhiệm sử dụng AI để giữ tương thích với cấu trúc dữ liệu cũ.
-    const apply = Math.round((autonomy * 0.6 + critical * 0.4) * 10) / 10;
-
-    // Đảo chiều Dependency để điểm tổng hợp mang ý nghĩa "năng lực sử dụng AI độc lập":
-    // dependency cao => independence thấp.
-    const independence = 100 - dependency;
-    const overall = Math.round(
-        (independence + autonomy + critical + verify + apply + responsible) / 6 * 10
-    ) / 10;
-
-    lastResult = {
-        dependency,
-        autonomy,
-        critical,
-        verify,
-        apply,
-        responsible
-    };
-    lastOverall = overall;
-
-    document.getElementById("metric-dep").textContent = `${dependency}%`;
-    document.getElementById("metric-autonomy").textContent = `${autonomy}%`;
-    document.getElementById("metric-critical").textContent = `${critical}%`;
-    document.getElementById("metric-verify").textContent = `${verify}%`;
-    document.getElementById("metric-apply").textContent = `${apply}%`;
-    document.getElementById("metric-responsible").textContent = `${responsible}%`;
-
-    document.getElementById("result-score").textContent = `${overall}/100`;
-    document.getElementById("user-display-info").textContent =
-        `${document.getElementById("participant-code").value.trim()} · ` +
-        `${document.getElementById("student-level").value} · ` +
-        `${SUBJECT_NAMES[currentSubject]}`;
-
-    let badge = "HỒ SƠ SỬ DỤNG AI CÂN BẰNG";
-    let desc = "Bạn đang kết hợp AI với khả năng tự học và kiểm soát quá trình học tập.";
-
-    if (overall < 50) {
-        badge = "CẦN TĂNG TÍNH ĐỘC LẬP";
-        desc = "Nên tăng thời gian tự suy nghĩ, tự kiểm tra và chủ động xử lý nhiệm vụ trước khi nhờ AI.";
-    } else if (overall < 70) {
-        badge = "ĐANG PHÁT TRIỂN";
-        desc = "Bạn đã có một số thói quen học tập độc lập; hãy tiếp tục cải thiện cách kiểm chứng và sử dụng AI.";
-    } else if (overall < 85) {
-        badge = "KHÁ CHỦ ĐỘNG";
-        desc = "Bạn có xu hướng sử dụng AI như công cụ hỗ trợ và vẫn duy trì nhiều hoạt động tự học.";
-    } else {
-        badge = "CHỦ ĐỘNG CAO";
-        desc = "Hồ sơ cho thấy mức độ tự chủ tương đối cao khi kết hợp AI vào học tập.";
-    }
-
-    document.getElementById("result-badge").textContent = badge;
-    document.getElementById("result-desc").textContent = desc;
-
-    // Phân tích chi tiết + biểu đồ radar được tạo sau khi có đầy đủ điểm.
-    renderDetailedAnalysis();
-
-    showScreen("result");
-    sendToGoogleSheets(currentResultPayload());
-}
-
-
-function analysisLevel(score, reverse = false) {
-    // reverse=true dùng cho Phụ thuộc AI: điểm cao là xu hướng cần chú ý.
-    if (reverse) {
-        if (score >= 75) return "Mức khá cao. Bạn nên ưu tiên tự suy nghĩ và thử cách giải trước khi nhờ AI.";
-        if (score >= 50) return "Có dấu hiệu sử dụng AI khá thường xuyên. Bạn nên chú ý dành thời gian tự suy nghĩ trước khi nhờ AI.";
-        if (score >= 25) return "Mức tương đối thấp. Bạn vẫn nên duy trì thói quen tự xử lý nhiệm vụ trước khi dùng AI.";
-        return "Mức thấp. AI dường như chưa được dùng như lựa chọn đầu tiên khi bạn gặp khó khăn.";
-    }
-
-    if (score >= 75) return "Đây là một khía cạnh nổi bật trong hồ sơ trả lời của bạn.";
-    if (score >= 50) return "Năng lực ở mức trung bình khá. Có thể cải thiện bằng cách luyện tập thường xuyên hơn.";
-    if (score >= 25) return "Đây là khía cạnh cần được chú ý và rèn luyện thêm trong quá trình học tập.";
-    return "Đây là khía cạnh cần được ưu tiên cải thiện trong quá trình học tập.";
-}
-
-function makeRadarSvg(values) {
-    const labels = ["Độc lập", "Tự học", "Phản biện", "Kiểm chứng", "Vận dụng", "Trách nhiệm"];
-    const cx = 280, cy = 245, radius = 150;
-    const n = labels.length;
-
-    const point = (value, i, r = radius) => {
-        const angle = -Math.PI / 2 + i * (2 * Math.PI / n);
-        const rr = r * Math.max(0, Math.min(100, value)) / 100;
-        return {
-            x: cx + rr * Math.cos(angle),
-            y: cy + rr * Math.sin(angle)
-        };
-    };
-
-    const polygonPoints = (r) => {
-        return Array.from({length:n}, (_,i) => {
-            const p = point(100, i, r);
-            return `${p.x.toFixed(1)},${p.y.toFixed(1)}`;
-        }).join(" ");
-    };
-
-    const dataPoints = values.map((v,i) => point(v,i));
-    const dataPolygon = dataPoints.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
-
-    let svg = `
-    <svg viewBox="0 0 560 520" role="img" aria-label="Biểu đồ radar kết quả học tập độc lập">
-        <polygon class="radar-grid" points="${polygonPoints(radius)}"></polygon>
-        <polygon class="radar-grid" points="${polygonPoints(radius*0.75)}"></polygon>
-        <polygon class="radar-grid" points="${polygonPoints(radius*0.50)}"></polygon>
-        <polygon class="radar-grid" points="${polygonPoints(radius*0.25)}"></polygon>
-    `;
-
-    for (let i=0;i<n;i++) {
-        const p = point(100,i);
-        svg += `<line class="radar-axis" x1="${cx}" y1="${cy}" x2="${p.x}" y2="${p.y}"></line>`;
-    }
-
-    svg += `<polygon class="radar-area" points="${dataPolygon}"></polygon>`;
-
-    dataPoints.forEach(p => {
-        svg += `<circle class="radar-point" cx="${p.x}" cy="${p.y}" r="5"></circle>`;
-    });
-
-    labels.forEach((label,i) => {
-        const p = point(100,i, radius + 34);
-        let anchor = "middle";
-        if (p.x < cx - 20) anchor = "end";
-        if (p.x > cx + 20) anchor = "start";
-
-        let dy = 4;
-        if (i === 0) dy = -2;
-        if (i === 3) dy = 5;
-        svg += `<text class="radar-label" x="${p.x}" y="${p.y + dy}" text-anchor="${anchor}">${label}</text>`;
-    });
-
-    // Hiển thị mốc 25/50/75/100 nhỏ ở góc phải.
-    svg += `
-        <text x="510" y="385" text-anchor="end" font-size="10" fill="#94a3b8">100</text>
-        <text x="510" y="400" text-anchor="end" font-size="10" fill="#94a3b8">75</text>
-        <text x="510" y="415" text-anchor="end" font-size="10" fill="#94a3b8">50</text>
-        <text x="510" y="430" text-anchor="end" font-size="10" fill="#94a3b8">25</text>
-    `;
-
-    svg += "</svg>";
-    return svg;
-}
-
-function renderDetailedAnalysis() {
-    if (!lastResult) return;
-
-    const dependency = Number(lastResult.dependency || 0);
-    const autonomy = Number(lastResult.autonomy || 0);
-    const critical = Number(lastResult.critical || 0);
-    const verify = Number(lastResult.verify || 0);
-    const apply = Number(lastResult.apply || 0);
-    const responsible = Number(lastResult.responsible || 0);
-
-    const independence = Math.max(0, Math.min(100, 100 - dependency));
-
-    const values = [independence, autonomy, critical, verify, apply, responsible];
-
-    document.getElementById("analysis-dep-value").textContent = `${dependency}%`;
-    document.getElementById("analysis-autonomy-value").textContent = `${autonomy}%`;
-    document.getElementById("analysis-critical-value").textContent = `${critical}%`;
-    document.getElementById("analysis-verify-value").textContent = `${verify}%`;
-    document.getElementById("analysis-apply-value").textContent = `${apply}%`;
-    document.getElementById("analysis-responsible-value").textContent = `${responsible}%`;
-
-    document.getElementById("analysis-dep-text").textContent =
-        analysisLevel(dependency, true);
-    document.getElementById("analysis-autonomy-text").textContent =
-        analysisLevel(autonomy);
-    document.getElementById("analysis-critical-text").textContent =
-        analysisLevel(critical);
-    document.getElementById("analysis-verify-text").textContent =
-        analysisLevel(verify);
-    document.getElementById("analysis-apply-text").textContent =
-        analysisLevel(apply);
-    document.getElementById("analysis-responsible-text").textContent =
-        analysisLevel(responsible);
-
-    // Xác định các điểm mạnh/yếu để tạo phần tổng hợp.
-    const positive = [
-        ["năng lực tự học", autonomy],
-        ["tư duy phản biện", critical],
-        ["khả năng kiểm chứng thông tin", verify],
-        ["khả năng vận dụng kiến thức", apply],
-        ["sử dụng AI có trách nhiệm", responsible]
-    ];
-
-    const sortedPositive = [...positive].sort((a,b) => b[1] - a[1]);
-    const strongest = sortedPositive[0];
-    const weakest = sortedPositive[sortedPositive.length - 1];
-
-    let summary =
-        `Kết quả cho thấy bạn có một hồ sơ sử dụng AI với những đặc điểm riêng. ` +
-        `Khía cạnh nổi bật nhất hiện tại là <strong>${strongest[0]}</strong> (${strongest[1]}%). ` +
-        `Một số khía cạnh cần được chú ý thêm gồm <strong>${weakest[0]}</strong> (${weakest[1]}%)` +
-        (dependency >= 50 ? ` và mức phụ thuộc AI đang ở ${dependency}%.` : ".");
-
-    document.getElementById("analysis-summary-text").innerHTML = summary;
-
-    let advice = "";
-    if (apply < 50) {
-        advice = "Sau khi học một kiến thức mới, hãy thử đặt một tình huống khác và tự giải quyết nó mà không nhìn lại câu trả lời mẫu.";
-    } else if (dependency >= 50) {
-        advice = "Trước khi hỏi AI, hãy tự viết ít nhất một hướng giải quyết hoặc dự đoán của mình; sau đó dùng AI để phản hồi và kiểm tra.";
-    } else if (verify < 50) {
-        advice = "Khi nhận một thông tin quan trọng từ AI, hãy đối chiếu ít nhất một nguồn đáng tin cậy trước khi đưa vào bài làm.";
-    } else {
-        advice = "Tiếp tục duy trì quy trình: tự suy nghĩ → hỏi AI → kiểm chứng → tự hoàn thiện → tự làm lại.";
-    }
-
-    document.getElementById("analysis-advice-text").textContent = ` ${advice}`;
-
-    document.getElementById("radar-chart").innerHTML = makeRadarSvg(values);
-}
-
-function currentResultPayload() {
-    return {
-        submissionId: currentSubmissionId,
-        participantCode: document.getElementById("participant-code").value.trim(),
-        level: document.getElementById("student-level").value,
-        subject: SUBJECT_NAMES[currentSubject],
-        dependency: lastResult?.dependency ?? "",
-        autonomy: lastResult?.autonomy ?? "",
-        critical: lastResult?.critical ?? "",
-        verify: lastResult?.verify ?? "",
-        apply: lastResult?.apply ?? "",
-        responsible: lastResult?.responsible ?? "",
-        overall: lastOverall
-    };
-}
-
-function sendToGoogleSheets(data) {
-    const statusElem = document.getElementById("save-status");
-
-    if (!SCRIPT_URL) {
-        if (statusElem) statusElem.textContent = "⚠️ Chưa cấu hình Google Apps Script.";
-        return Promise.resolve(false);
-    }
-
-    const formData = new URLSearchParams();
-    Object.keys(data).forEach(key => formData.append(key, data[key] ?? ""));
-
-    return fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},
-        body: formData.toString()
-    })
-    .then(() => {
-        if (statusElem) statusElem.textContent = "✓ Đã gửi dữ liệu lên Google Sheets.";
-        return true;
-    })
-    .catch(err => {
-        console.error("Lỗi gửi dữ liệu:", err);
-        if (statusElem) statusElem.textContent = "❌ Không gửi được dữ liệu. Hãy thử lại.";
-        return false;
-    });
-}
-
-function saveCurrentResult() {
-    if (!lastResult) return;
-    sendToGoogleSheets(currentResultPayload());
-}
-function fetchTotalSubmissions() {
-    const countElem = document.getElementById("dash-count");
-    if (!countElem || !SCRIPT_URL) return;
-
-    countElem.textContent = "Đang tải...";
-
-    fetch(SCRIPT_URL)
-        .then(res => res.json())
-        .then(data => {
-            countElem.textContent = Number(data.total || 0);
-        })
-        .catch(err => {
-            console.error("Lỗi tải tổng lượt:", err);
-            countElem.textContent = "Chưa kết nối";
+        [inputA, inputOmega, inputPhi].forEach(input => {
+            input.addEventListener('input', () => {
+                updateInputs();
+            });
         });
-}
 
-function openDashboard() {
-    showScreen("dashboard");
-    fetchTotalSubmissions();
-}
+        function toggleRunState() {
+            isRunning = !isRunning;
+            if (isRunning) {
+                modeIndicator.innerText = "Đang chạy tự động";
+                modeIndicator.className = "text-xs px-2 py-0.5 bg-blue-900/60 text-blue-300 rounded border border-blue-700";
+                runPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i> Tạm dừng';
+            } else {
+                modeIndicator.innerText = "Đã tạm dừng / Kéo thả";
+                modeIndicator.className = "text-xs px-2 py-0.5 bg-amber-900/60 text-amber-300 rounded border border-amber-700";
+                runPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i> Tiếp tục';
+            }
+        }
 
-function restartQuiz() {
-    startQuiz();
-}
+        // Kéo thả chất điểm trên canvas
+        canvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            isRunning = false;
+            modeIndicator.innerText = "Đang tương tác kéo thả";
+            modeIndicator.className = "text-xs px-2 py-0.5 bg-purple-900/60 text-purple-300 rounded border border-purple-700";
+            runPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i> Tiếp tục';
+            updatePositionFromMouse(e);
+        });
 
-function goHome() {
-    showScreen("home");
-}
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                updatePositionFromMouse(e);
+            }
+        });
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Không gọi Apps Script ngay khi mở trang; chỉ tải khi mở Dashboard.
-});
-</script>
+        window.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+            }
+        });
+
+        function updatePositionFromMouse(e) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const centerX = canvas.width / 2;
+            const scale = (canvas.width * 0.4) / 15; // Quy đổi pixel sang cm tương ứng max A = 15
+            
+            let xPixel = mouseX - centerX;
+            let xVal = xPixel / scale;
+            
+            // Giới hạn trong [-A, A]
+            if (xVal > A) xVal = A;
+            if (xVal < -A) xVal = -A;
+
+            // Tính ngược lại thời gian hoặc góc pha tương ứng để đồng bộ hệ thống
+            let cosVal = xVal / A;
+            if (cosVal > 1) cosVal = 1;
+            if (cosVal < -1) cosVal = -1;
+            
+            // Tính thời gian tạm thời tương ứng với vị trí kéo
+            time = (Math.acos(cosVal) - phi) / omega;
+            if (isNaN(time)) time = 0;
+        }
+
+        // Vòng lặp vẽ canvas
+        function draw() {
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+
+            const width = canvas.width;
+            const height = canvas.height;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const scale = (width * 0.4) / 15; // 15cm tương ứng 40% chiều rộng
+
+            if (isRunning) {
+                time += 0.02;
+            }
+
+            // Tính toán dao động điều hòa
+            let x = A * Math.cos(omega * time + phi);
+            let v = -omega * A * Math.sin(omega * time + phi);
+            let a = -omega * omega * x;
+
+            // Năng lượng (Giả sử độ cứng k = m * omega^2)
+            let k = m * omega * omega * 100; // hệ số quy đổi mJ
+            let W = 0.5 * k * (A / 100) * (A / 100) * 1000; // mJ
+            let Wt = 0.5 * k * (x / 100) * (x / 100) * 1000; // mJ
+            let Wd = W - Wt;
+            if (Wd < 0) Wd = 0;
+
+            // Cập nhật UI thông số
+            valX.innerText = x.toFixed(2) + " cm";
+            valV.innerText = v.toFixed(2) + " cm/s";
+            valA.innerText = a.toFixed(2) + " cm/s²";
+            valWd.innerText = Wd.toFixed(2) + " mJ";
+            valWt.innerText = Wt.toFixed(2) + " mJ";
+            valW.innerText = W.toFixed(2) + " mJ";
+
+            let percentWd = W > 0 ? (Wd / W) * 100 : 0;
+            let percentWt = W > 0 ? (Wt / W) * 100 : 0;
+
+            barWd.style.width = percentWd + "%";
+            barWt.style.width = percentWt + "%";
+            barWdText.innerText = percentWd.toFixed(1) + "%";
+            barWtText.innerText = percentWt.toFixed(1) + "%";
+
+            // Nhận xét vị trí đặc biệt
+            if (Math.abs(x) < 0.3) {
+                positionInsight.innerHTML = "<b class='text-emerald-400'>Đang ở Vị trí cân bằng (O):</b> Li độ x = 0; Vận tốc đạt độ lớn cực đại (|v| = \(\omega A\)); Gia tốc a = 0; Động năng cực đại, Thế năng bằng 0!";
+            } else if (Math.abs(Math.abs(x) - A) < 0.3) {
+                positionInsight.innerHTML = "<b class='text-amber-400'>Đang ở Vị trí Biên (\(\pm A\)):</b> Li độ đạt độ lớn cực đại; Vận tốc v = 0; Gia tốc đạt độ lớn cực đại (|a| = \(\omega^2 A\)); Thế năng cực đại, Động năng bằng 0!";
+            } else {
+                positionInsight.innerHTML = Đang ở vị trí bất kỳ: x = ${x.toFixed(1)}cm. Cơ năng được bảo toàn và phân chia thành động năng và thế năng tại thời điểm này.;
+            }
+
+            // --- VẼ ĐỒ HỌA ---
+            // 1. Trục tọa độ ngang
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(40, centerY);
+            ctx.lineTo(width - 40, centerY);
+            ctx.stroke();
+
+            // 2. Vạch biên âm, biên dương, vị trí cân bằng
+            let posMaxX = centerX + A * scale;
+            let posMinX = centerX - A * scale;
+
+            // Vạch O
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '12px Inter';
+            ctx.textAlign = 'center';
+            ctx.fillText('O (0)', centerX, centerY + 30);
+            ctx.fillRect(centerX, centerY - 6, 2, 12);
+
+            // Vạch Biên Dương (+A)
+            ctx.fillText('+' + A + ' cm', posMaxX, centerY + 30);
+            ctx.fillRect(posMaxX, centerY - 10, 2, 20);
+
+            // Vạch Biên Âm (-A)
+            ctx.fillText('-' + A + ' cm', posMinX, centerY + 30);
+            ctx.fillRect(posMinX, centerY - 10, 2, 20);
+
+            // 3. Lò xo tượng trưng (hoặc đường nối)
+            ctx.strokeStyle = '#64748b';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            let currentXPos = centerX + x * scale;
+            // Vẽ lò xo dích dắc đơn giản
+            let startSpringX = posMinX;
+            let endSpringX = currentXPos - 12;
+            let coils = 12;
+            let stepW = (endSpringX - startSpringX) / coils;
+            ctx.moveTo(startSpringX, centerY);
+            for (let i = 1; i <= coils; i++) {
+                let sx = startSpringX + stepW * i;
+                let sy = centerY + (i % 2 === 0 ? 10 : -10);
+                if (i === coils) sy = centerY;
+                ctx.lineTo(sx, sy);
+            }
+            ctx.stroke();
+
+            // 4. Chất điểm (Vật nặng)
+            ctx.shadowColor = '#3b82f6';
+            ctx.shadowBlur = 15;
+            ctx.fillStyle = '#3b82f6';
+            ctx.beginPath();
+            ctx.arc(currentXPos, centerY, 14, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0; // reset shadow
+
+            // Tâm chất điểm
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(currentXPos, centerY, 4, 0, Math.PI * 2);
+            ctx.fill();
+
+            requestAnimationFrame(draw);
+        }
+
+        // --- HỆ THỐNG TRẮC NGHIỆM VÀ TỰ LUẬN SÁNG TẠO ---
+        const quizData = [
+            {
+                type: "multiple",
+                question: "Câu 1: Khi một vật dao động điều hòa đi từ vị trí cân bằng ra vị trí biên, phát biểu nào sau đây là đúng về vận tốc và gia tốc?",
+                options: [
+                    "Vận tốc và gia tốc đều tăng.",
+                    "Vận tốc giảm, gia tốc tăng (về độ lớn).",
+                    "Vận tốc tăng, gia tốc giảm (về độ lớn).",
+                    "Vận tốc và gia tốc đều giảm."
+                ],
+                correct: 1,
+                explanation: "Khi đi từ VTCB ra biên, vật chuyển động chậm dần nên độ lớn vận tốc giảm; độ lớn gia tốc tăng vì tỉ lệ thuận với độ lớn li độ (|a| = \(\omega^2 x\))."
+            },
+            {
+                type: "multiple",
+                question: "Câu 2: Tại vị trí nào thì động năng của vật dao động điều hòa đạt giá trị cực đại bằng cơ năng?",
+                options: [
+                    "Tại vị trí biên dương (+A).",
+                    "Tại vị trí biên âm (-A).",
+                    "Tại vị trí cân bằng (x = 0).",
+                    "Tại vị trí có li độ x = A/2."
+                ],
+                correct: 2,
+                explanation: "Tại vị trí cân bằng, vận tốc cực đại nên động năng đạt giá trị cực đại bằng toàn bộ cơ năng của hệ."
+            },
+            {
+                type: "multiple",
+                question: "Câu 3: Một chất điểm dao động điều hòa với phương trình x = 5cos(4\(\pi\)t - \(\frac{\pi}{3}\)) (cm). Chu kỳ dao động của chất điểm là:",
+                options: [
+                    "T = 0.5 s",
+                    "T = 1.0 s",
+                    "T = 2.0 s",
+                    "T = 0.25 s"
+                ],
+                correct: 0,
+                explanation: "Ta có \(\omega = 4\pi\) rad/s. Chu kỳ \(T = \frac{2\pi}{\omega} = \frac{2\pi}{4\pi} = 0.5\) s."
+            },
+            {
+                type: "essay",
+                question: "Câu 4 (Tự luận): Giải thích vì sao trong dao động điều hòa, cơ năng của vật được bảo toàn dù động năng và thế năng liên tục chuyển hóa lẫn nhau?",
+                suggest: "Cơ năng bằng tổng động năng và thế năng (W = Wđ + Wt). Khi vật chuyển động, nếu động năng tăng lên (vật tiến về VTCB) thì thế năng giảm xuống một lượng tương ứng (do li độ giảm) và ngược lại. Do không có ma sát (hệ lý tưởng), tổng số này luôn không đổi."
+            },
+            {
+                type: "essay",
+                question: "Câu 5 (Tự luận): Một học sinh cho rằng: 'Tại vị trí biên, lực kéo về bằng không vì vận tốc của vật bằng không'. Nhận định này đúng hay sai? Vì sao?",
+                suggest: "Nhận định này SAI. Tại vị trí biên, vận tốc v = 0 nhưng li độ x đạt giá trị cực đại (\(\pm A\)). Do đó lực kéo về \(F = -kx\) đạt độ lớn cực đại chứ không bằng không."
+            }
+        ];
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                html += <div class="bg-slate-900/80 border border-slate-700 p-5 rounded-xl space-y-3">;
+                html += <h4 class="font-semibold text-slate-200 text-sm">${q.question}</h4>;
+
+                if (q.type === 'multiple') {
+                    html += <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">;
+                    q.options.forEach((opt, oIndex) => {
+                        html += `
+                            <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-800 hover:bg-slate-700/80 cursor-pointer border border-slate-700 text-xs transition">
+                                <input type="radio" name="q${index}" value="${oIndex}" class="text-blue-600 focus:ring-blue-500">
+                                <span class="text-slate-300">${opt}</span>
+                            </label>
+                        `;
+                    });
+                    html += </div>;
+                } else {
+                    html += `
+                        <div class="mt-2">
+                            <textarea id="essay-${index}" rows="3" placeholder="Nhập câu trả lời tự luận của bạn..." class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-xs text-slate-200 focus:outline-none focus:border-blue-500"></textarea>
+                            <div id="suggest-${index}" class="hidden mt-2 p-3 bg-blue-950/50 border border-blue-900 rounded-lg text-xs text-blue-200">
+                                <b>Gợi ý chuẩn:</b> ${q.suggest}
+                            </div>
+                        </div>
+                    `;
+                }
+                html += </div>;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function checkAnswers() {
+            let score = 0;
+            quizData.forEach((q, index) => {
+                if (q.type === 'multiple') {
+                    const selected = document.querySelector(input[name="q${index}"]:checked);
+                    if (selected && parseInt(selected.value) === q.correct) {
+                        score += 2;
+                    }
+                } else {
+                    // Tự luận bật gợi ý cho học sinh tự so sánh
+                    const suggestBox = document.getElementById(suggest-${index});
+                    suggestBox.classList.remove('hidden');
+                    score += 2; // Tự luận mang tính chất tự đánh giá
+                }
+            });
+
+            document.getElementById('quiz-score').innerText = Điểm tham khảo: ${score} / 10;
+            alert(Đã chấm điểm hoàn tất! Điểm tham khảo của bạn là: ${score}/10 điểm.);
+        }
+
+        // Khởi chạy ban đầu
+        updateInputs();
+        renderQuiz();
+        draw();
+    </script>
 </body>
 </html>
